@@ -1,28 +1,28 @@
 
-let notes = [];
+let notes = JSON.parse(localStorage.getItem('notes')) || [];
 
-function createNewNote() {
+function addNote() {
 
     const title = prompt('What do you want to call your note?');
     const text = prompt('What is your note?');
     const dateCreated = new Date();
-
-    class Note {
-        constructor(title, text, dateCreated) {
-            this.title = title;
-            this.text = text;
-            this.dateCreated = dateCreated;
-        }
+    const note = {
+        title,
+        text,
+        dateCreated
     }
 
-    // Add note to notes array
-    notes.unshift(new Note(title, text, dateCreated));
+    // Add note to top of notes array
+    notes.push(note);
+
+    // Save new note to local storage
+    localStorage.setItem('notes', JSON.stringify(notes));
 
     // Add new note to display
-    displayNotes(new Note(title, text, dateCreated));
+    displayNote(note);
 }
 
-function displayNotes(note) {
+function displayNote(note) {
 
     const section = document.querySelector('section');
     const article = document.createElement('article');    
@@ -34,3 +34,6 @@ function displayNotes(note) {
     section.prepend(article);
     
 }
+
+// Loads any preexisting notes from local storage
+notes.forEach(note => displayNote(note));
