@@ -26,7 +26,12 @@ function addNote() {
         dateCreated
     }
 
-    if (note.text !== '') {
+    function isBlank() {
+        const regex = new RegExp(/^(\s+$)(.{0})/);
+        return regex.test(note.text);
+    }
+
+    if (note.text !== '' && !isBlank()) {
         // Add note to top of notes array
         userNotes.push(note);
         // Save new note to local storage
