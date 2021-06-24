@@ -26,14 +26,17 @@ function addNote() {
         dateCreated
     }
 
-    // Add note to top of notes array
-    userNotes.push(note);
+    if (note.text !== '') {
+        // Add note to top of notes array
+        userNotes.push(note);
+        // Save new note to local storage
+        localStorage.setItem('notes', JSON.stringify(userNotes));
+        // Add new note to display
+        displayNote(note);
+    } else {
+        return;
+    };
 
-    // Save new note to local storage
-    localStorage.setItem('notes', JSON.stringify(userNotes));
-
-    // Add new note to display
-    displayNote(note);
 }
 
 function displayNote(note) {
