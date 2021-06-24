@@ -1,4 +1,7 @@
 
+const newNoteButton = document.querySelector('nav ul li');
+const closeModalButton = document.querySelector('#modal-footer li');
+
 function toggleModalDisplay() {
     
     const modal = document.getElementById('modal');
@@ -45,7 +48,10 @@ function displayNote(note) {
     
 }
 
-// Loads any preexisting notes from local storage on page load
+// Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNote(note));
-
-
+// Open modal window
+newNoteButton.addEventListener('click', toggleModalDisplay);
+// Save a new note and close modal window
+closeModalButton.addEventListener('click', addNote);
+closeModalButton.addEventListener('click', toggleModalDisplay);
