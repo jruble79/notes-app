@@ -1,5 +1,6 @@
 
-let notes = JSON.parse(localStorage.getItem('notes')) || [];
+// Notes from local storage. If empty, sets notes to empty array
+let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
 function addNote() {
 
@@ -13,10 +14,10 @@ function addNote() {
     }
 
     // Add note to top of notes array
-    notes.push(note);
+    userNotes.push(note);
 
     // Save new note to local storage
-    localStorage.setItem('notes', JSON.stringify(notes));
+    localStorage.setItem('notes', JSON.stringify(userNotes));
 
     // Add new note to display
     displayNote(note);
@@ -35,5 +36,5 @@ function displayNote(note) {
     
 }
 
-// Loads any preexisting notes from local storage
-notes.forEach(note => displayNote(note));
+// Loads any preexisting notes from local storage on page load
+userNotes.forEach(note => displayNote(note));
