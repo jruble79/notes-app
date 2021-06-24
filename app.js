@@ -1,14 +1,24 @@
 
+function toggleModalDisplay() {
+    
+    const modal = document.getElementById('modal');
+
+    if (modal.style.display == 'block') {
+        modal.style.display = 'none';
+    } else {
+        modal.style.display = 'block';
+    }
+
+}
+
 // Notes from local storage. If empty, sets notes to empty array
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
 function addNote() {
 
-    const title = prompt('What do you want to call your note?');
     const text = document.querySelector('textarea').value;
     const dateCreated = new Date();
     const note = {
-        title,
         text,
         dateCreated
     }
@@ -25,11 +35,10 @@ function addNote() {
 
 function displayNote(note) {
 
-    const section = document.getElementById('userNotes-viewer');
+    const section = document.getElementById('usernotes-viewer');
     const article = document.createElement('article');    
 
     article.innerHTML = `
-    <h3>${note.title}</h3>
     <p>${note.text}</p>
     `;
     section.prepend(article);
@@ -38,3 +47,5 @@ function displayNote(note) {
 
 // Loads any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNote(note));
+
+
