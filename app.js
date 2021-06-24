@@ -1,6 +1,7 @@
 
 const newNoteButton = document.querySelector('nav ul li');
 const closeModalButton = document.querySelector('#modal-footer li');
+const textArea = document.querySelector('textarea');
 
 function toggleModalDisplay() {
     
@@ -14,16 +15,21 @@ function toggleModalDisplay() {
 
 }
 
+function countWords(text) {
+    return text.match(/\w+/g).length;
+}
+
 // Notes from local storage. If empty, sets notes to empty array
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
 function addNote() {
 
-    const text = document.querySelector('textarea').value;
+    const text = textArea.value;
     const dateCreated = new Date();
     const note = {
         text,
-        dateCreated
+        dateCreated,
+        wordCount: countWords(textArea.value)
     }
 
     function isBlank() {
@@ -63,3 +69,9 @@ newNoteButton.addEventListener('click', toggleModalDisplay);
 // Save a new note and close modal window
 closeModalButton.addEventListener('click', addNote);
 closeModalButton.addEventListener('click', toggleModalDisplay);
+// Count and display number of words as user types
+textArea.addEventListener('input', () => {
+    let wordCount = document.getElementById('wordcount');
+    wordCount.innerHTML = 'Words:' + ' ' + countWords(textArea.value);
+});
+
