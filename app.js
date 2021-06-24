@@ -25,7 +25,7 @@ function addNote() {
 
 function displayNote(note) {
 
-    const section = document.querySelector('section');
+    const section = document.getElementById('userNotes-viewer');
     const article = document.createElement('article');    
 
     article.innerHTML = `
