@@ -4,6 +4,10 @@ html {
     box-sizing: border-box;
 }
 
+#modal {
+    display: none;
+}
+
 #usernotes-viewer {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
