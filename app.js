@@ -5,7 +5,7 @@ let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 function addNote() {
 
     const title = prompt('What do you want to call your note?');
-    const text = prompt('What is your note?');
+    const text = document.querySelector('textarea').value;
     const dateCreated = new Date();
     const note = {
         title,
