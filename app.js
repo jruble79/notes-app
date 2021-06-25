@@ -1,4 +1,9 @@
 
+
+// Pull existing notes from local storage. 
+// If no preexisting notes, sets userNotes to empty array
+let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
+
 const newNoteButton = document.querySelector('nav ul li');
 const closeModalButton = document.querySelector('#modal-footer li');
 const textArea = document.querySelector('textarea');
@@ -19,8 +24,10 @@ function countWords(text) {
     return text.match(/\w+/g).length;
 }
 
-// Notes from local storage. If empty, sets notes to empty array
-let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
+function isBlank() {
+    const regex = new RegExp(/^(\s+$)(.{0})/);
+    return regex.test(note.text);
+}
 
 function addNote() {
 
@@ -30,11 +37,6 @@ function addNote() {
         text,
         dateCreated,
         wordCount: countWords(textArea.value)
-    }
-
-    function isBlank() {
-        const regex = new RegExp(/^(\s+$)(.{0})/);
-        return regex.test(note.text);
     }
 
     if (note.text !== '' && !isBlank()) {
@@ -57,6 +59,7 @@ function displayNote(note) {
 
     article.innerHTML = `
     <p>${note.text}</p>
+    <p>${note.dateCreated}</p>
     `;
     section.prepend(article);
     
