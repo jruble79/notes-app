@@ -10,10 +10,31 @@ html {
     font-family: 'Roboto', sans-serif;
     color: var(--main-text-color);
     background-color: var(--main-background-color);
+    height: 100vh;
 }
 
-#modal {
-    display: none;
+body {
+    height: calc(100vh - 3rem);
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+    padding: 1.5rem 1rem;
+    margin: 0;
+}
+
+nav ul, footer ul {
+    margin: 0;
+    padding-inline-start: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+header {
+    margin-bottom: 1rem;
+}
+
+footer {
+    margin-top: 1rem;
 }
 
 #usernotes-viewer {
@@ -21,9 +42,10 @@ html {
     grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
     grid-auto-rows: 150px;
     gap: 1rem;
+    overflow-y: scroll;
 }
 
-article {
+#usernotes-viewer article {
     padding: 1rem;
     background-color: var(--main-notes-color);
     overflow-y: hidden;
@@ -31,4 +53,26 @@ article {
 
 .thumbnail > * {
     transform: scale(1);
+}
+
+/* MODAL STYLES */
+
+#modal {
+    display: none;
+    index: 1;
+}
+
+textarea {
+    border: 0;
+    padding: 0;
+    width: 100%;
+    resize: none;
+    background-color: var(--main-background-color);
+}
+
+#modal-footer ul {
+    padding-inline-start: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
 }
