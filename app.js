@@ -46,10 +46,10 @@ function toggleModalDisplay() {
     
     const modal = document.getElementById('modal');
 
-    if (modal.style.display == 'block') {
+    if (modal.style.display == 'grid') {
         modal.style.display = 'none';
     } else {
-        modal.style.display = 'block';
+        modal.style.display = 'grid';
     }
 
 }
