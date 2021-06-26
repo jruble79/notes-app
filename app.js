@@ -60,19 +60,21 @@ function countWords(text) {
 
 function addNote() {
 
-    const dateCreated = Date.now();
     const note = {
-        text: textArea.value,
-        dateCreated: Date(),
-        wordCount: countWords(textArea.value)
-    }
+        noteKey: Date.now(),
+        noteContent: {
+            text: textArea.value,
+            dateCreated: Date(),
+            wordCount: countWords(textArea.value)
+        }
+    };
 
     function isBlank() {
         const regex = new RegExp(/^(\s+$)(.{0})/);
-        return regex.test(note.text);
+        return regex.test(note.noteContent.text);
     }    
 
-    if (note.text !== '' && !isBlank()) {
+    if (note.noteContent.text !== '' && !isBlank()) {
         // Add note to top of notes array
         userNotes.push(note);
         // Save new note to local storage
@@ -91,8 +93,8 @@ function displayNote(note) {
     const article = document.createElement('article');    
 
     article.innerHTML = `
-    <p>${note.text}</p>
-    <p>${note.dateCreated}</p>
+    <p>${note.noteContent.text}</p>
+    <p>${note.noteContent.dateCreated}</p>
     `;
     section.prepend(article);
     
