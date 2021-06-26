@@ -60,11 +60,10 @@ function countWords(text) {
 
 function addNote() {
 
-    const text = textArea.value;
-    const dateCreated = new Date();
+    const dateCreated = Date.now();
     const note = {
-        text,
-        dateCreated,
+        text: textArea.value,
+        dateCreated: Date(),
         wordCount: countWords(textArea.value)
     }
 
