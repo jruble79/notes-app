@@ -26,7 +26,7 @@ const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
 const trash = document.getElementById('trash');
 let textArea = document.querySelector('textarea');
-let foundNote;
+// let foundNote;
 let foundIndex;
 
 let root = document.documentElement;
@@ -110,9 +110,9 @@ function displayNote(note) {
 function getNote() {
     let thisNoteKey = this.querySelector('p').textContent;
     thisNoteKey = parseInt(thisNoteKey);
-    foundNote = userNotes.find(note => note.noteKey === thisNoteKey);
+    // foundNote = userNotes.find(note => note.noteKey === thisNoteKey);
     foundIndex = userNotes.findIndex(note => note.noteKey === thisNoteKey);
-    toggleModalDisplay(foundNote.noteContent.text);
+    toggleModalDisplay(userNotes[foundIndex].noteContent.text);
 }
 
 function deleteNote() {
