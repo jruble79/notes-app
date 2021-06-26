@@ -22,11 +22,11 @@ const colorTheme = [
 ];
 
 const newNoteButton = document.querySelector('nav ul li');
+const gridControl = document.getElementById('grid');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
 const trash = document.getElementById('trash');
 let textArea = document.querySelector('textarea');
-// let foundNote;
 let foundIndex;
 
 let root = document.documentElement;
@@ -122,6 +122,15 @@ function deleteNote() {
     location.reload();
 }
 
+function changeGrid() {
+    const section = document.getElementById('usernotes-viewer');
+    if (section.style.gridTemplateColumns == 'repeat(auto-fill, minmax(150px, 2fr))') {
+        section.style.gridTemplateColumns = '1fr';
+    } else {
+        section.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 2fr))';
+    }
+}
+
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNote(note));
@@ -137,6 +146,8 @@ textArea.addEventListener('input', () => {
 });
 // Change color theme
 themeControl.addEventListener('click', changeColorTheme);
+// Change grid display
+gridControl.addEventListener('click', changeGrid);
 // Open an existing note
 const article = document.querySelectorAll('article'); 
 article.forEach(note => note.addEventListener('click', getNote));
