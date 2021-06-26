@@ -24,7 +24,7 @@ const colorTheme = [
 const newNoteButton = document.querySelector('nav ul li');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
-const textArea = document.querySelector('textarea');
+let textArea = document.querySelector('textarea');
 
 let root = document.documentElement;
 
@@ -42,9 +42,10 @@ function changeColorTheme() {
     }
 }
 
-function toggleModalDisplay() {
+function toggleModalDisplay(note) {
     
     const modal = document.getElementById('modal');
+    textArea.textContent = note;
 
     if (modal.style.display == 'grid') {
         modal.style.display = 'none';
@@ -81,6 +82,8 @@ function addNote() {
         localStorage.setItem('notes', JSON.stringify(userNotes));
         // Add new note to display
         displayNote(note);
+        // Force page refresh 
+        location.reload();
     } else {
         return;
     };
@@ -93,12 +96,23 @@ function displayNote(note) {
     const article = document.createElement('article');    
 
     article.innerHTML = `
+    <p>${note.noteKey}</p>
     <p>${note.noteContent.text}</p>
     <p>${note.noteContent.dateCreated}</p>
     `;
     section.prepend(article);
     
 }
+
+function openExistingNote() {
+
+    let thisNoteKey = this.querySelector('p').textContent;
+    thisNoteKey = parseInt(thisNoteKey);
+    const foundNote = userNotes.find(note => note.noteKey === thisNoteKey);
+
+    toggleModalDisplay(foundNote.noteContent.text);
+}
+
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNote(note));
@@ -114,3 +128,6 @@ textArea.addEventListener('input', () => {
 });
 // Change color theme
 themeControl.addEventListener('click', changeColorTheme);
+// Open an existing note
+const article = document.querySelectorAll('article'); 
+article.forEach(note => note.addEventListener('click', openExistingNote));
