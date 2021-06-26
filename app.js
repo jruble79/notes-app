@@ -24,7 +24,10 @@ const colorTheme = [
 const newNoteButton = document.querySelector('nav ul li');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
+const trash = document.getElementById('trash');
 let textArea = document.querySelector('textarea');
+let foundNote;
+let foundIndex;
 
 let root = document.documentElement;
 
@@ -104,13 +107,19 @@ function displayNote(note) {
     
 }
 
-function openExistingNote() {
-
+function getNote() {
     let thisNoteKey = this.querySelector('p').textContent;
     thisNoteKey = parseInt(thisNoteKey);
-    const foundNote = userNotes.find(note => note.noteKey === thisNoteKey);
-
+    foundNote = userNotes.find(note => note.noteKey === thisNoteKey);
+    foundIndex = userNotes.findIndex(note => note.noteKey === thisNoteKey);
     toggleModalDisplay(foundNote.noteContent.text);
+}
+
+function deleteNote() {
+    userNotes.splice(foundIndex, 1);
+    localStorage.setItem('notes', JSON.stringify(userNotes));
+    toggleModalDisplay();
+    location.reload();
 }
 
 
@@ -130,4 +139,6 @@ textArea.addEventListener('input', () => {
 themeControl.addEventListener('click', changeColorTheme);
 // Open an existing note
 const article = document.querySelectorAll('article'); 
-article.forEach(note => note.addEventListener('click', openExistingNote));
+article.forEach(note => note.addEventListener('click', getNote));
+// Delete an existing note
+trash.addEventListener('click', deleteNote);
