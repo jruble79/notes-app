@@ -25,9 +25,11 @@ const newNoteButton = document.querySelector('nav ul li');
 const gridControl = document.getElementById('grid');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
+const modal = document.getElementById('modal');
 const trash = document.getElementById('trash');
 let textArea = document.querySelector('textarea');
 let foundIndex;
+let thisNoteKey;
 
 let root = document.documentElement;
 
@@ -47,15 +49,16 @@ function changeColorTheme() {
 
 function toggleModalDisplay(note) {
     
-    const modal = document.getElementById('modal');
     textArea.textContent = note;
 
     if (modal.style.display == 'grid') {
         modal.style.display = 'none';
+        location.reload()
     } else {
         modal.style.display = 'grid';
+        // Auto save the note every second when modal window is open
+        setInterval(saveNote, 1000);
     }
-
 }
 
 function countWords(text) {
@@ -73,24 +76,22 @@ function addNote() {
         }
     };
 
-    function isBlank() {
-        const regex = new RegExp(/^(\s+$)(.{0})/);
-        return regex.test(note.noteContent.text);
-    }    
+    // function isBlank() {
+    //     const regex = new RegExp(/^(\s+$)(.{0})/);
+    //     return regex.test(note.noteContent.text);
+    // }    
 
-    if (note.noteContent.text !== '' && !isBlank()) {
-        // Add note to top of notes array
-        userNotes.push(note);
-        // Save new note to local storage
-        localStorage.setItem('notes', JSON.stringify(userNotes));
-        // Add new note to display
-        displayNotePreview(note);
-        // Force page refresh 
-        location.reload();
-    } else {
-        return;
-    };
+    userNotes.push(note);
+    localStorage.setItem('notes', JSON.stringify(userNotes));
+    thisNoteKey = note.noteKey;
+    getNote(thisNoteKey);
+    return note;
+}
 
+function saveNote(note) {
+    userNotes[foundIndex].noteContent.text = textArea.value;
+    userNotes.push();
+    localStorage.setItem('notes', JSON.stringify(userNotes));
 }
 
 function displayNotePreview(note) {
@@ -104,15 +105,11 @@ function displayNotePreview(note) {
     <p>${note.noteContent.dateCreated}</p>
     `;
     section.prepend(article);
-    
 }
 
-function getNote() {
-    let thisNoteKey = this.querySelector('p').textContent;
-    thisNoteKey = parseInt(thisNoteKey);
-    // foundNote = userNotes.find(note => note.noteKey === thisNoteKey);
-    foundIndex = userNotes.findIndex(note => note.noteKey === thisNoteKey);
-    toggleModalDisplay(userNotes[foundIndex].noteContent.text);
+function getNote(key) {
+    foundIndex = userNotes.findIndex(note => note.noteKey === key);
+    return foundIndex;
 }
 
 function deleteNote() {
@@ -134,22 +131,35 @@ function changeGrid() {
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
+
 // Open modal window
 newNoteButton.addEventListener('click', toggleModalDisplay);
-// Save a new note and close modal window
-closeModalButton.addEventListener('click', addNote);
+newNoteButton.addEventListener('click', addNote);
+
+// Close modal window
 closeModalButton.addEventListener('click', toggleModalDisplay);
+
 // Count and display number of words as user types
 textArea.addEventListener('input', () => {
     let wordCount = document.getElementById('wordcount');
     wordCount.innerHTML = 'Words:' + ' ' + countWords(textArea.value);
 });
+
 // Change color theme
 themeControl.addEventListener('click', changeColorTheme);
+
 // Change grid display
 gridControl.addEventListener('click', changeGrid);
+
 // Open an existing note
 const article = document.querySelectorAll('article'); 
-article.forEach(note => note.addEventListener('click', getNote));
+article.forEach(article => article.addEventListener('click', () => {
+    let thisNoteKey = article.querySelector('p').textContent;
+    thisNoteKey = parseInt(thisNoteKey);
+    getNote(thisNoteKey);
+    toggleModalDisplay(userNotes[foundIndex].noteContent.text);
+}
+));
+
 // Delete an existing note
 trash.addEventListener('click', deleteNote);
