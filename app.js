@@ -84,7 +84,7 @@ function addNote() {
         // Save new note to local storage
         localStorage.setItem('notes', JSON.stringify(userNotes));
         // Add new note to display
-        displayNote(note);
+        displayNotePreview(note);
         // Force page refresh 
         location.reload();
     } else {
@@ -93,7 +93,7 @@ function addNote() {
 
 }
 
-function displayNote(note) {
+function displayNotePreview(note) {
 
     const section = document.getElementById('usernotes-viewer');
     const article = document.createElement('article');    
@@ -133,7 +133,7 @@ function changeGrid() {
 
 
 // Load any preexisting notes from local storage on page load
-userNotes.forEach(note => displayNote(note));
+userNotes.forEach(note => displayNotePreview(note));
 // Open modal window
 newNoteButton.addEventListener('click', toggleModalDisplay);
 // Save a new note and close modal window
