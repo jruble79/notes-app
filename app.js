@@ -54,7 +54,8 @@ function toggleModalDisplay(note) {
 
     if (modal.style.display == 'grid') {
         modal.style.display = 'none';
-        location.reload()
+        refresh();
+        relink();
     } else {
         modal.style.display = 'grid';
     }
@@ -119,7 +120,8 @@ function deleteNote() {
     userNotes.splice(index, 1);
     localStorage.setItem('notes', JSON.stringify(userNotes));
     toggleModalDisplay();
-    location.reload();
+    refresh();    
+    relink();
 }
 
 function changeGrid() {
@@ -149,17 +151,39 @@ function sortNotes() {
         sortBy.textContent = "Sort: Date Edited";
         // Sort by recently edited
         userNotes.sort((a, b) => a.noteContent.timeElapsed - b.noteContent.timeElapsed);
-        localStorage.setItem('notes', JSON.stringify(userNotes));
-        section.innerHTML = '';
-        userNotes.forEach(note => displayNotePreview(note));    
     } else {
         sortBy.textContent = "Sort: Date Created";
         // Sort by creation date
         userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated);
-        localStorage.setItem('notes', JSON.stringify(userNotes));
-        section.innerHTML = '';
-        userNotes.forEach(note => displayNotePreview(note));
     }
+
+    localStorage.setItem('notes', JSON.stringify(userNotes));
+    refresh();   
+
+}
+
+
+
+
+// Refresh user-notes viewer content
+function refresh() {
+    const section = document.getElementById('usernotes-viewer');
+    section.innerHTML = '';
+    userNotes.forEach(note => displayNotePreview(note));
+}
+
+// Relink user-notes viewer event listeners
+function relink() {
+
+    const article = document.querySelectorAll('article'); 
+
+    article.forEach(article => article.addEventListener('click', () => {
+        let thisNoteKey = article.querySelector('p').textContent;
+        thisNoteKey = parseInt(thisNoteKey);
+        getNote(thisNoteKey);
+        toggleModalDisplay(userNotes[index].noteContent.text);
+    }
+    ));
 }
 
 
@@ -193,18 +217,10 @@ gridControl.addEventListener('click', changeGrid);
 
 // Open an existing note
 const article = document.querySelectorAll('article'); 
-article.forEach(article => article.addEventListener('click', () => {
-    let thisNoteKey = article.querySelector('p').textContent;
-    thisNoteKey = parseInt(thisNoteKey);
-    getNote(thisNoteKey);
-    toggleModalDisplay(userNotes[index].noteContent.text);
-}
-));
+article.forEach(relink);
 
 // Delete an existing note
 trash.addEventListener('click', deleteNote);
-
-
 
 // Sort the notes by creation date and edit date
 sortBy.addEventListener('click', sortNotes);
