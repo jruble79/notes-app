@@ -4,7 +4,14 @@
 // If no preexisting notes, sets userNotes to empty array
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
-const colorTheme = [
+// Sort notes by edited date on page load
+userNotes.sort((a, b) => a.noteContent.timeElapsed - b.noteContent.timeElapsed);
+
+// Load any preexisting notes from local storage on page load
+userNotes.forEach(note => displayNotePreview(note));
+relink();
+
+const colorThemes = [
 
     {
         themeName: 'Light',
@@ -35,29 +42,27 @@ let thisNoteKey;
 let root = document.documentElement;
 
 function changeColorTheme() {
-    if (this.textContent.includes(colorTheme[0].themeName)) {
-        root.style.setProperty('--main-text-color', colorTheme[1].mainTextColor);
-        root.style.setProperty('--main-background-color', colorTheme[1].mainBackgroundColor);
-        root.style.setProperty('--main-notes-color', colorTheme[1].mainNotesColor);
-        themeControl.textContent = `Theme: ${colorTheme[1].themeName}`;
+    if (this.textContent.includes(colorThemes[0].themeName)) {
+        root.style.setProperty('--main-text-color', colorThemes[1].mainTextColor);
+        root.style.setProperty('--main-background-color', colorThemes[1].mainBackgroundColor);
+        root.style.setProperty('--main-notes-color', colorThemes[1].mainNotesColor);
+        themeControl.textContent = `Theme: ${colorThemes[1].themeName}`;
     } else {
-        root.style.setProperty('--main-text-color', colorTheme[0].mainTextColor);
-        root.style.setProperty('--main-background-color', colorTheme[0].mainBackgroundColor);
-        root.style.setProperty('--main-notes-color', colorTheme[0].mainNotesColor);
-        themeControl.textContent = `Theme: ${colorTheme[0].themeName}`;
+        root.style.setProperty('--main-text-color', colorThemes[0].mainTextColor);
+        root.style.setProperty('--main-background-color', colorThemes[0].mainBackgroundColor);
+        root.style.setProperty('--main-notes-color', colorThemes[0].mainNotesColor);
+        themeControl.textContent = `Theme: ${colorThemes[0].themeName}`;
     }
 }
 
 function toggleModalDisplay(note) {
     
-    textArea.textContent = note;
-
     if (modal.style.display == 'grid') {
         modal.style.display = 'none';
-        refresh();
-        relink();
+        sortNotes();
     } else {
         modal.style.display = 'grid';
+        textArea.textContent = note;
     }
 }
 
@@ -70,7 +75,7 @@ function addNote() {
     const note = {
         noteKey: Date.now(),
         noteContent: {
-            text: textArea.value,
+            text: null,
             dateCreated: Date.now(),
             dateEdited: null,
             wordCount: countWords(textArea.value)
@@ -86,7 +91,6 @@ function addNote() {
     localStorage.setItem('notes', JSON.stringify(userNotes));
     thisNoteKey = note.noteKey;
     getNote(thisNoteKey);
-    return note;
 }
 
 function saveNote(note) {
@@ -119,9 +123,8 @@ function getNote(key) {
 function deleteNote() {
     userNotes.splice(index, 1);
     localStorage.setItem('notes', JSON.stringify(userNotes));
+    refresh();
     toggleModalDisplay();
-    refresh();    
-    relink();
 }
 
 function changeGrid() {
@@ -143,14 +146,12 @@ function sortNotes() {
         thisNoteKey = parseInt(thisNoteKey);
         getNote(thisNoteKey);
         const thisNote = userNotes[index].noteContent;
-        const timeElapsed = thisNote.dateEdited - thisNote.dateCreated;
-        thisNote.timeElapsed = timeElapsed;
     });
 
     if (sortBy.textContent.includes('Created')) {
         sortBy.textContent = "Sort: Date Edited";
         // Sort by recently edited
-        userNotes.sort((a, b) => a.noteContent.timeElapsed - b.noteContent.timeElapsed);
+        userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
     } else {
         sortBy.textContent = "Sort: Date Created";
         // Sort by creation date
@@ -158,12 +159,10 @@ function sortNotes() {
     }
 
     localStorage.setItem('notes', JSON.stringify(userNotes));
-    refresh();   
+    refresh();  
+    relink(); 
 
 }
-
-
-
 
 // Refresh user-notes viewer content
 function refresh() {
@@ -180,18 +179,13 @@ function relink() {
     article.forEach(article => article.addEventListener('click', () => {
         let thisNoteKey = article.querySelector('p').textContent;
         thisNoteKey = parseInt(thisNoteKey);
-        getNote(thisNoteKey);
+        getNote(thisNoteKey); // returns index value of this note
         toggleModalDisplay(userNotes[index].noteContent.text);
     }
     ));
 }
 
 
-// Load any preexisting notes from local storage on page load
-userNotes.forEach(note => displayNotePreview(note));
-
-// Sort notes by Date Created on page load
-sortNotes;
 
 // Open modal window
 newNoteButton.addEventListener('click', toggleModalDisplay);
@@ -214,10 +208,6 @@ themeControl.addEventListener('click', changeColorTheme);
 
 // Change grid display
 gridControl.addEventListener('click', changeGrid);
-
-// Open an existing note
-const article = document.querySelectorAll('article'); 
-article.forEach(relink);
 
 // Delete an existing note
 trash.addEventListener('click', deleteNote);
