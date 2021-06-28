@@ -57,9 +57,6 @@ function toggleModalDisplay(note) {
         location.reload()
     } else {
         modal.style.display = 'grid';
-
-        // Auto save the note every second when modal window is open
-        setInterval(saveNote, 1000);
     }
 }
 
@@ -184,6 +181,9 @@ textArea.addEventListener('input', () => {
     let wordCount = document.getElementById('wordcount');
     wordCount.innerHTML = 'Words:' + ' ' + countWords(textArea.value);
 });
+
+// Save the note with every character stroke
+textArea.addEventListener('input', saveNote);
 
 // Change color theme
 themeControl.addEventListener('click', changeColorTheme);
