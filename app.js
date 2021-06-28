@@ -27,8 +27,9 @@ const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
 const modal = document.getElementById('modal');
 const trash = document.getElementById('trash');
+const sortBy = document.getElementById('sort');
 let textArea = document.querySelector('textarea');
-let foundIndex;
+let index;
 let thisNoteKey;
 
 let root = document.documentElement;
@@ -56,6 +57,7 @@ function toggleModalDisplay(note) {
         location.reload()
     } else {
         modal.style.display = 'grid';
+
         // Auto save the note every second when modal window is open
         setInterval(saveNote, 1000);
     }
@@ -71,7 +73,8 @@ function addNote() {
         noteKey: Date.now(),
         noteContent: {
             text: textArea.value,
-            dateCreated: Date(),
+            dateCreated: Date.now(),
+            dateEdited: null,
             wordCount: countWords(textArea.value)
         }
     };
@@ -89,7 +92,10 @@ function addNote() {
 }
 
 function saveNote(note) {
-    userNotes[foundIndex].noteContent.text = textArea.value;
+    const thisNote = userNotes[index].noteContent;
+    thisNote.text = textArea.value;
+    thisNote.dateEdited = Date.now();
+    thisNote.wordCount = countWords(textArea.value);
     userNotes.push();
     localStorage.setItem('notes', JSON.stringify(userNotes));
 }
@@ -108,12 +114,12 @@ function displayNotePreview(note) {
 }
 
 function getNote(key) {
-    foundIndex = userNotes.findIndex(note => note.noteKey === key);
-    return foundIndex;
+    index = userNotes.findIndex(note => note.noteKey === key);
+    return index;
 }
 
 function deleteNote() {
-    userNotes.splice(foundIndex, 1);
+    userNotes.splice(index, 1);
     localStorage.setItem('notes', JSON.stringify(userNotes));
     toggleModalDisplay();
     location.reload();
@@ -128,9 +134,43 @@ function changeGrid() {
     }
 }
 
+function sortNotes() {
+
+    const section = document.getElementById('usernotes-viewer');
+    const article = document.querySelectorAll('article'); 
+
+    article.forEach(article => {
+        let thisNoteKey = article.querySelector('p').textContent;
+        thisNoteKey = parseInt(thisNoteKey);
+        getNote(thisNoteKey);
+        const thisNote = userNotes[index].noteContent;
+        const timeElapsed = thisNote.dateEdited - thisNote.dateCreated;
+        thisNote.timeElapsed = timeElapsed;
+    });
+
+    if (sortBy.textContent.includes('Created')) {
+        sortBy.textContent = "Sort: Date Edited";
+        // Sort by recently edited
+        userNotes.sort((a, b) => a.noteContent.timeElapsed - b.noteContent.timeElapsed);
+        localStorage.setItem('notes', JSON.stringify(userNotes));
+        section.innerHTML = '';
+        userNotes.forEach(note => displayNotePreview(note));    
+    } else {
+        sortBy.textContent = "Sort: Date Created";
+        // Sort by creation date
+        userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated);
+        localStorage.setItem('notes', JSON.stringify(userNotes));
+        section.innerHTML = '';
+        userNotes.forEach(note => displayNotePreview(note));
+    }
+}
+
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
+
+// Sort notes by Date Created on page load
+sortNotes;
 
 // Open modal window
 newNoteButton.addEventListener('click', toggleModalDisplay);
@@ -157,9 +197,14 @@ article.forEach(article => article.addEventListener('click', () => {
     let thisNoteKey = article.querySelector('p').textContent;
     thisNoteKey = parseInt(thisNoteKey);
     getNote(thisNoteKey);
-    toggleModalDisplay(userNotes[foundIndex].noteContent.text);
+    toggleModalDisplay(userNotes[index].noteContent.text);
 }
 ));
 
 // Delete an existing note
 trash.addEventListener('click', deleteNote);
+
+
+
+// Sort the notes by creation date and edit date
+sortBy.addEventListener('click', sortNotes);
