@@ -65,7 +65,7 @@ function toggleModalDisplay() {
         refresh();
     } else {
         modal.style.display = 'grid';
-        textArea.textContent = userNotes[index].noteContent.text;
+        textArea.value = userNotes[index].noteContent.text;
     }
 }
 
@@ -73,7 +73,7 @@ function countWords(text) {
     return text.match(/\w+/g).length;
 }
 
-function addNote() {
+function createNewNote() {
 
     const note = {
         noteKey: Date.now(),
@@ -91,7 +91,7 @@ function addNote() {
     getNote(thisNoteKey);
 }
 
-function saveNote(note) {
+function saveNote() {
     const thisNote = userNotes[index].noteContent;
     thisNote.text = textArea.value;
     thisNote.dateEdited = Date.now();
@@ -103,22 +103,23 @@ function saveNote(note) {
 function displayNotePreview(note) {
 
     const section = document.getElementById('usernotes-viewer');
-    const article = document.createElement('article');    
+    const article = document.createElement('article');
 
     article.innerHTML = `
     <p>${note.noteKey}</p>
     <p>${note.noteContent.text}</p>
     <p>${note.noteContent.dateCreated}</p>
     `;
-    section.prepend(article);
 
     article.addEventListener('click', () => {
         let thisNoteKey = article.querySelector('p').textContent;
         thisNoteKey = parseInt(thisNoteKey);
         getNote(thisNoteKey); // returns index value of this note
-        toggleModalDisplay(userNotes[index].noteContent.text);
+        toggleModalDisplay();
     }
     );
+
+    section.prepend(article);
 
 }
 
@@ -178,8 +179,8 @@ function refresh() {
 
 
 // Open modal window
+newNoteButton.addEventListener('click', createNewNote);
 newNoteButton.addEventListener('click', toggleModalDisplay);
-newNoteButton.addEventListener('click', addNote);
 
 // Close modal window
 closeModalButton.addEventListener('click', toggleModalDisplay);
