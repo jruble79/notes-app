@@ -21,7 +21,7 @@ modal.style.display = 'none';
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
 // Sort notes by edited date on page load
-userNotes.sort((a, b) => a.noteContent.timeElapsed - b.noteContent.timeElapsed);
+userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
@@ -67,7 +67,7 @@ function toggleModalDisplay(note) {
         relink();
     } else {
         modal.style.display = 'grid';
-        textArea.textContent = note;
+        textArea.textContent = note.noteContent.text;
     }
 }
 
