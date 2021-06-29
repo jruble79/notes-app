@@ -1,5 +1,21 @@
 
 
+const newNoteButton = document.querySelector('nav ul li');
+const gridControl = document.getElementById('grid');
+const themeControl = document.getElementById('theme-control');
+const closeModalButton = document.querySelector('#modal-footer li');
+const modal = document.getElementById('modal');
+const trash = document.getElementById('trash');
+const sortBy = document.getElementById('sort');
+let textArea = document.querySelector('textarea');
+let index;
+let thisNoteKey;
+
+let root = document.documentElement;
+
+// Sets initial state of modal display
+modal.style.display = 'none';
+
 // Pull existing notes from local storage. 
 // If no preexisting notes, sets userNotes to empty array
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
@@ -28,18 +44,6 @@ const colorThemes = [
 
 ];
 
-const newNoteButton = document.querySelector('nav ul li');
-const gridControl = document.getElementById('grid');
-const themeControl = document.getElementById('theme-control');
-const closeModalButton = document.querySelector('#modal-footer li');
-const modal = document.getElementById('modal');
-const trash = document.getElementById('trash');
-const sortBy = document.getElementById('sort');
-let textArea = document.querySelector('textarea');
-let index;
-let thisNoteKey;
-
-let root = document.documentElement;
 
 function changeColorTheme() {
     if (this.textContent.includes(colorThemes[0].themeName)) {
@@ -59,7 +63,8 @@ function toggleModalDisplay(note) {
     
     if (modal.style.display == 'grid') {
         modal.style.display = 'none';
-        sortNotes();
+        refresh();
+        relink();
     } else {
         modal.style.display = 'grid';
         textArea.textContent = note;
@@ -78,14 +83,9 @@ function addNote() {
             text: null,
             dateCreated: Date.now(),
             dateEdited: null,
-            wordCount: countWords(textArea.value)
+            wordCount: 0
         }
     };
-
-    // function isBlank() {
-    //     const regex = new RegExp(/^(\s+$)(.{0})/);
-    //     return regex.test(note.noteContent.text);
-    // }    
 
     userNotes.push(note);
     localStorage.setItem('notes', JSON.stringify(userNotes));
@@ -123,7 +123,6 @@ function getNote(key) {
 function deleteNote() {
     userNotes.splice(index, 1);
     localStorage.setItem('notes', JSON.stringify(userNotes));
-    refresh();
     toggleModalDisplay();
 }
 
