@@ -67,6 +67,8 @@ function toggleModalDisplay() {
     } else {
         modal.style.display = 'grid';
         textArea.value = userNotes[index].noteContent.text;
+        let wordCount = document.getElementById('wordcount');
+        wordCount.innerHTML = 'Words:' + ' ' + countWords(textArea.value);
     }
 }
 
