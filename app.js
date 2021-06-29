@@ -32,7 +32,7 @@ const colorThemes = [
         themeName: 'Light',
         mainTextColor: 'rgb(0, 0, 0)',
         mainBackgroundColor: 'rgb(255, 255, 255)',
-        mainNotesColor: 'rgb(211, 211, 211)',
+        mainNotesColor: 'rgb(255, 232, 132)',
     },
     {
         themeName: 'Dark',
@@ -62,7 +62,8 @@ function toggleModalDisplay() {
     
     if (modal.style.display == 'grid') {
         modal.style.display = 'none';
-        refresh();
+        // refresh();
+        sortNotes();
     } else {
         modal.style.display = 'grid';
         textArea.value = userNotes[index].noteContent.text;
