@@ -25,7 +25,6 @@ userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
-relink();
 
 const colorThemes = [
 
@@ -59,15 +58,14 @@ function changeColorTheme() {
     }
 }
 
-function toggleModalDisplay(note) {
+function toggleModalDisplay() {
     
     if (modal.style.display == 'grid') {
         modal.style.display = 'none';
         refresh();
-        relink();
     } else {
         modal.style.display = 'grid';
-        textArea.textContent = note.noteContent.text;
+        textArea.textContent = userNotes[index].noteContent.text;
     }
 }
 
@@ -113,6 +111,15 @@ function displayNotePreview(note) {
     <p>${note.noteContent.dateCreated}</p>
     `;
     section.prepend(article);
+
+    article.addEventListener('click', () => {
+        let thisNoteKey = article.querySelector('p').textContent;
+        thisNoteKey = parseInt(thisNoteKey);
+        getNote(thisNoteKey); // returns index value of this note
+        toggleModalDisplay(userNotes[index].noteContent.text);
+    }
+    );
+
 }
 
 function getNote(key) {
@@ -159,7 +166,6 @@ function sortNotes() {
 
     localStorage.setItem('notes', JSON.stringify(userNotes));
     refresh();  
-    relink(); 
 
 }
 
@@ -169,21 +175,6 @@ function refresh() {
     section.innerHTML = '';
     userNotes.forEach(note => displayNotePreview(note));
 }
-
-// Relink user-notes viewer event listeners
-function relink() {
-
-    const article = document.querySelectorAll('article'); 
-
-    article.forEach(article => article.addEventListener('click', () => {
-        let thisNoteKey = article.querySelector('p').textContent;
-        thisNoteKey = parseInt(thisNoteKey);
-        getNote(thisNoteKey); // returns index value of this note
-        toggleModalDisplay(userNotes[index].noteContent.text);
-    }
-    ));
-}
-
 
 
 // Open modal window
