@@ -4,6 +4,7 @@ const newNoteButton = document.querySelector('nav ul li');
 const gridControl = document.getElementById('grid');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
+const selectButton = document.getElementById('select');
 const modal = document.getElementById('modal');
 const trash = document.getElementById('trash');
 const sortBy = document.getElementById('sort');
@@ -85,7 +86,7 @@ function changeColorTheme() {
 }
 
 function toggleModalDisplay() {
-    
+
     if (modal.style.display == 'grid') {
         modal.classList.remove('modal-open');
         modal.style.display = 'none';
@@ -143,24 +144,31 @@ function displayNotePreview(note) {
     <p>${note.noteContent.text}</p>
     `;
 
-    article.addEventListener('click', () => {
-        let thisNoteKey = article.querySelector('p').textContent;
-        thisNoteKey = parseInt(thisNoteKey);
-        getNote(thisNoteKey); // returns index value of this note
-        toggleModalDisplay();
-    }
-    );
-
+    article.addEventListener('click', articleActions);
     section.prepend(article);
 
 }
 
-// Performs a find on the userNotes array to find index value of
-// object containing the supplied noteKey provided by displayNotePreview
-function getNote(key) {
-    index = userNotes.findIndex(note => note.noteKey === key);
-    return index;
+function articleActions(e) {
+    let article = e.target;
+    let thisNoteKey = article.querySelector('p').textContent;
+    thisNoteKey = parseInt(thisNoteKey);
+    getNote(thisNoteKey);
+    toggleModalDisplay();
 }
+
+function selectNotes() {
+    
+    let article = document.querySelectorAll('article');
+    article.forEach(article => article.removeEventListener('click', articleActions));
+
+    article.forEach(article => article.addEventListener('click', doSomething));
+
+    function doSomething() {
+        console.log('hi');
+    }
+}
+
 
 function deleteNote() {
     userNotes.splice(index, 1);
@@ -168,16 +176,6 @@ function deleteNote() {
     toggleModalDisplay();
 }
 
-function changeGrid() {
-    const section = document.getElementById('usernotes-viewer');
-    if (gridControl.textContent.includes('Grid')) {
-        section.style.gridTemplateColumns = '1fr';
-        gridControl.textContent = 'Display: List';
-    } else {
-        section.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 2fr))';
-        gridControl.textContent = 'Display: Grid';
-    }
-}
 
 // Sorts notes array and redraws the usernotes-viewer
 function sortNotes() {
@@ -201,6 +199,26 @@ function sortNotes() {
     localStorage.setItem('notes', JSON.stringify(userNotes));
     refresh();  
 
+}
+
+
+
+function changeGrid() {
+    const section = document.getElementById('usernotes-viewer');
+    if (gridControl.textContent.includes('Grid')) {
+        section.style.gridTemplateColumns = '1fr';
+        gridControl.textContent = 'Display: List';
+    } else {
+        section.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 2fr))';
+        gridControl.textContent = 'Display: Grid';
+    }
+}
+
+// Utility to find index value of object containing 
+// the supplied noteKey provided by displayNotePreview
+function getNote(key) {
+    index = userNotes.findIndex(note => note.noteKey === key);
+    return index;
 }
 
 // Utility to clear the user-notes viewer. Calls displayNotePreview 
@@ -246,3 +264,6 @@ trash.addEventListener('click', deleteNote);
 
 // Sort the notes by creation date and edit date
 sortBy.addEventListener('click', sortNotes);
+
+// Select multiple notes
+selectButton.addEventListener('click', selectNotes);
