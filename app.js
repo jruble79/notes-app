@@ -19,12 +19,14 @@ const colorThemes = [
         mainTextColor: 'rgb(0, 0, 0)',
         mainBackgroundColor: 'rgb(255, 255, 255)',
         mainNotesColor: 'rgb(255, 232, 132)',
+        mainBoxShadowColor: 'rgb(211, 211, 211)'
     },
     {
         themeName: 'Dark',
         mainTextColor: 'rgb(255, 255, 255)',
         mainBackgroundColor: 'rgb(0, 0, 0)',
-        mainNotesColor: 'rgb(75, 75, 75)',    
+        mainNotesColor: 'rgb(75, 75, 75)',
+        mainBoxShadowColor: 'rgb(75, 75, 75)'
     }
 
 ];
@@ -70,11 +72,13 @@ function changeColorTheme() {
         root.style.setProperty('--main-text-color', colorThemes[1].mainTextColor);
         root.style.setProperty('--main-background-color', colorThemes[1].mainBackgroundColor);
         root.style.setProperty('--main-notes-color', colorThemes[1].mainNotesColor);
+        root.style.setProperty('--main-box-shadow-color', colorThemes[1].mainBoxShadowColor);
         themeControl.textContent = `Theme: ${colorThemes[1].themeName}`;
     } else {
         root.style.setProperty('--main-text-color', colorThemes[0].mainTextColor);
         root.style.setProperty('--main-background-color', colorThemes[0].mainBackgroundColor);
         root.style.setProperty('--main-notes-color', colorThemes[0].mainNotesColor);
+        root.style.setProperty('--main-box-shadow-color', colorThemes[0].mainBoxShadowColor);
         themeControl.textContent = `Theme: ${colorThemes[0].themeName}`;
     }
 }
