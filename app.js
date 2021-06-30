@@ -22,6 +22,7 @@ let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
 // Sort notes by edited date on page load
 userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
+sortBy.textContent = 'Sort: Date Edited (Descending)';
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
@@ -150,16 +151,22 @@ function changeGrid() {
     }
 }
 
-// NEEDS TO BE FINISHED
-// NEEDS TO BE FINISHED
-// NEEDS TO BE FINISHED
-// NEEDS TO BE FINISHED
-// NEEDS TO BE FINISHED
-
 function sortNotes() {
 
-    userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
-    userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated);
+    let sortingLabel = sortBy.textContent;
+    if (sortingLabel.includes('Date Edited (Descending)')) {
+        userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited).reverse();
+        sortBy.textContent = 'Sort: Date Edited (Ascending)';
+    } else if (sortingLabel.includes('Sort: Date Edited (Ascending)')) {
+        userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated);
+        sortBy.textContent = 'Sort: Date Created (Descending)';
+    } else if (sortingLabel.includes('Sort: Date Created (Descending)')) {
+        userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated).reverse();
+        sortBy.textContent = 'Sort: Date Created (Ascending)';
+    } else if (sortingLabel.includes('Sort: Date Created (Ascending)')) {
+        userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
+        sortBy.textContent = 'Sort: Date Edited (Descending)';
+    }
 
     // Save newly re-ordered array to Local Storage
     localStorage.setItem('notes', JSON.stringify(userNotes));
