@@ -7,7 +7,7 @@
 
 html {
     box-sizing: border-box;
-    font-size: 10pt;
+    font-size: 9pt;
     font-family: 'Roboto', sans-serif;
     color: var(--main-text-color);
     background-color: var(--main-background-color);
@@ -69,17 +69,29 @@ footer, #modal-footer {
 /* MODAL STYLES */
 
 #modal {
-    display: none;
+    /* display: none; */
     grid-template-rows: max-content 1fr max-content;
+}
+
+.modal-closed {
     position: absolute;
     top: 1rem;
     left: 1rem;
-    width: calc(100% - 4rem);
-    height: calc(100% - 5rem);
+    width: 0;
+    height: 0;
     padding: 1.5rem 1rem;
     background-color: var(--main-background-color);
     box-shadow: 0 0 2rem var(--main-box-shadow-color);
+    opacity: 0;
+    transition: width .5s, height .5s, opacity .5s;
 }
+
+.modal-open {
+    width: calc(100% - 4rem) ;
+    height: calc(100% - 5rem) ;
+    opacity: 1 ;
+}
+
 
 textarea {
     border: 0;
@@ -90,3 +102,4 @@ textarea {
     background-color: var(--main-background-color);
     font-family: 'Roboto', sans-serif;
 }
+
