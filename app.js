@@ -66,9 +66,9 @@ function toggleModalDisplay() {
         sortNotes();
     } else {
         modal.style.display = 'grid';
-        textArea.value = userNotes[index].noteContent.text;
-        let wordCount = document.getElementById('wordcount');
-        wordCount.innerHTML = 'Words:' + ' ' + countWords(textArea.value);
+        textArea.value = userNotes[index].noteContent.text; // Sets text area to content of note
+        let countedWords = document.getElementById('wordcount');
+        countedWords.innerHTML = 'Words:' + ' ' + userNotes[index].noteContent.wordCount;
     }
 }
 
@@ -103,6 +103,9 @@ function saveNote() {
     localStorage.setItem('notes', JSON.stringify(userNotes));
 }
 
+// Create article element containing note information
+// Add event handler on article element
+// Inserts article element into the usernotes-viewer section
 function displayNotePreview(note) {
 
     const section = document.getElementById('usernotes-viewer');
@@ -111,7 +114,6 @@ function displayNotePreview(note) {
     article.innerHTML = `
     <p>${note.noteKey}</p>
     <p>${note.noteContent.text}</p>
-    <p>${note.noteContent.dateCreated}</p>
     `;
 
     article.addEventListener('click', () => {
@@ -126,6 +128,8 @@ function displayNotePreview(note) {
 
 }
 
+// Performs a find on the userNotes array to find index value of
+// object containing the supplied noteKey provided by displayNotePreview
 function getNote(key) {
     index = userNotes.findIndex(note => note.noteKey === key);
     return index;
@@ -146,28 +150,18 @@ function changeGrid() {
     }
 }
 
+// NEEDS TO BE FINISHED
+// NEEDS TO BE FINISHED
+// NEEDS TO BE FINISHED
+// NEEDS TO BE FINISHED
+// NEEDS TO BE FINISHED
+
 function sortNotes() {
 
-    const section = document.getElementById('usernotes-viewer');
-    const article = document.querySelectorAll('article'); 
+    userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
+    userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated);
 
-    article.forEach(article => {
-        let thisNoteKey = article.querySelector('p').textContent;
-        thisNoteKey = parseInt(thisNoteKey);
-        getNote(thisNoteKey);
-        const thisNote = userNotes[index].noteContent;
-    });
-
-    if (sortBy.textContent.includes('Created')) {
-        sortBy.textContent = "Sort: Date Edited";
-        // Sort by recently edited
-        userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
-    } else {
-        sortBy.textContent = "Sort: Date Created";
-        // Sort by creation date
-        userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated);
-    }
-
+    // Save newly re-ordered array to Local Storage
     localStorage.setItem('notes', JSON.stringify(userNotes));
     refresh();  
 
@@ -179,6 +173,13 @@ function refresh() {
     section.innerHTML = '';
     userNotes.forEach(note => displayNotePreview(note));
 }
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Event Listeners
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 
 // Open modal window
