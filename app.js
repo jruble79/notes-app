@@ -140,7 +140,7 @@ function displayNotePreview(note) {
     const article = document.createElement('article');
 
     article.innerHTML = `
-    <p>${note.noteKey}</p>
+    <div>${note.noteKey}</div>
     <p>${note.noteContent.text}</p>
     `;
 
@@ -151,21 +151,49 @@ function displayNotePreview(note) {
 
 function articleActions(e) {
     let article = e.target;
-    let thisNoteKey = article.querySelector('p').textContent;
+    let thisNoteKey = article.querySelector('div').textContent;
     thisNoteKey = parseInt(thisNoteKey);
     getNote(thisNoteKey);
     toggleModalDisplay();
 }
 
-function selectNotes() {
-    
+function selectAndDeleteNotes() {
     let article = document.querySelectorAll('article');
+    let notesToTrash = [];
+
+    // Remove existing event listeners on articles
     article.forEach(article => article.removeEventListener('click', articleActions));
+    // Add listener to handle selecting notes
+    article.forEach(article => article.addEventListener('click', makeSelected));
+    // Listener to delete selected notes
+    selectButton.removeEventListener('click', selectAndDeleteNotes);
+    selectButton.addEventListener('click', deleteSelected);
 
-    article.forEach(article => article.addEventListener('click', doSomething));
+    function makeSelected(e) {
+        e.target.classList.add('article-active');
 
-    function doSomething() {
-        console.log('hi');
+        let article = e.target;
+        let thisNoteKey = article.querySelector('div').textContent;
+        thisNoteKey = parseInt(thisNoteKey);
+    
+        // Adds noteKey to notesToTrash array
+        notesToTrash.push(thisNoteKey);
+
+        selectButton.textContent = 'Trash';
+    }
+
+    function deleteSelected() {
+        notesToTrash.forEach(noteKey => indexAndRemove(noteKey));
+        refresh();
+    }
+
+    function indexAndRemove(noteKey) {
+        getNote(noteKey);
+        userNotes.splice(index, 1);
+        localStorage.setItem('notes', JSON.stringify(userNotes));
+        selectButton.textContent = 'Select';
+        selectButton.removeEventListener('click', deleteSelected);
+        selectButton.addEventListener('click', selectAndDeleteNotes);
     }
 }
 
@@ -266,4 +294,4 @@ trash.addEventListener('click', deleteNote);
 sortBy.addEventListener('click', sortNotes);
 
 // Select multiple notes
-selectButton.addEventListener('click', selectNotes);
+selectButton.addEventListener('click', selectAndDeleteNotes);
