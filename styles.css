@@ -2,6 +2,7 @@
     --main-text-color: rgb(0, 0, 0);
     --main-background-color: rgb(255, 255, 255);
     --main-notes-color: rgb(255, 232, 132);
+    --main-box-shadow-color: rgb(211, 211, 211);
 }
 
 html {
@@ -71,12 +72,13 @@ footer, #modal-footer {
     display: none;
     grid-template-rows: max-content 1fr max-content;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100% - 3rem);
-    height: calc(100% - 3rem);
+    top: 1rem;
+    left: 1rem;
+    width: calc(100% - 4rem);
+    height: calc(100% - 5rem);
     padding: 1.5rem 1rem;
     background-color: var(--main-background-color);
+    box-shadow: 0 0 2rem var(--main-box-shadow-color);
 }
 
 textarea {
