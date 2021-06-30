@@ -10,22 +10,7 @@ const sortBy = document.getElementById('sort');
 let textArea = document.querySelector('textarea');
 let index;
 let thisNoteKey;
-
 let root = document.documentElement;
-
-// Sets initial state of modal display
-modal.style.display = 'none';
-
-// Pull existing notes from local storage. 
-// If no preexisting notes, sets userNotes to empty array
-let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
-
-// Sort notes by edited date on page load
-userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
-sortBy.textContent = 'Sort: Date Edited (Descending)';
-
-// Load any preexisting notes from local storage on page load
-userNotes.forEach(note => displayNotePreview(note));
 
 const colorThemes = [
 
@@ -43,6 +28,41 @@ const colorThemes = [
     }
 
 ];
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// ON PAGE LOAD
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+
+// Sets initial state of modal display
+modal.style.display = 'none';
+
+// Pull existing notes from local storage. 
+// If no preexisting notes, sets userNotes to empty array
+let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
+
+// Sort notes by edited date on page load
+userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
+sortBy.textContent = 'Sort: Date Edited (Descending)';
+
+// Set initial color theme to Light
+themeControl.textContent = 'Theme: Light';
+
+// Load any preexisting notes from local storage on page load
+userNotes.forEach(note => displayNotePreview(note));
+
+// Set grid display
+gridControl.textContent = 'Display: Grid';
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// FUNCTION LAND
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 
 function changeColorTheme() {
@@ -144,13 +164,16 @@ function deleteNote() {
 
 function changeGrid() {
     const section = document.getElementById('usernotes-viewer');
-    if (section.style.gridTemplateColumns == 'repeat(auto-fill, minmax(150px, 2fr))') {
+    if (gridControl.textContent.includes('Grid')) {
         section.style.gridTemplateColumns = '1fr';
+        gridControl.textContent = 'Display: List';
     } else {
         section.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 2fr))';
+        gridControl.textContent = 'Display: Grid';
     }
 }
 
+// Sorts notes array and redraws the usernotes-viewer
 function sortNotes() {
 
     let sortingLabel = sortBy.textContent;
@@ -174,7 +197,8 @@ function sortNotes() {
 
 }
 
-// Refresh user-notes viewer content
+// Utility to clear the user-notes viewer. Calls displayNotePreview 
+// to redraw and relink event listeners to notes
 function refresh() {
     const section = document.getElementById('usernotes-viewer');
     section.innerHTML = '';
@@ -184,7 +208,7 @@ function refresh() {
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// Event Listeners
+// EVENT LISTENERS
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
