@@ -41,6 +41,7 @@ const colorThemes = [
 
 // Sets initial state of modal display
 modal.style.display = 'none';
+modal.classList.add('modal-closed');
 
 // Pull existing notes from local storage. 
 // If no preexisting notes, sets userNotes to empty array
@@ -86,11 +87,12 @@ function changeColorTheme() {
 function toggleModalDisplay() {
     
     if (modal.style.display == 'grid') {
+        modal.classList.remove('modal-open');
         modal.style.display = 'none';
-        // refresh();
         sortNotes();
     } else {
         modal.style.display = 'grid';
+        window.setTimeout( () => { modal.classList.add('modal-open') }, 25);
         textArea.value = userNotes[index].noteContent.text; // Sets text area to content of note
         let countedWords = document.getElementById('wordcount');
         countedWords.innerHTML = 'Words:' + ' ' + userNotes[index].noteContent.wordCount;
