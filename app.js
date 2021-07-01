@@ -64,45 +64,10 @@ gridControl.textContent = 'Display: Grid';
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// FUNCTION LAND
+// NOTE BASIC ACTIONS
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-
-function changeColorTheme() {
-    if (this.textContent.includes(colorThemes[0].themeName)) {
-        root.style.setProperty('--main-text-color', colorThemes[1].mainTextColor);
-        root.style.setProperty('--main-background-color', colorThemes[1].mainBackgroundColor);
-        root.style.setProperty('--main-notes-color', colorThemes[1].mainNotesColor);
-        root.style.setProperty('--main-box-shadow-color', colorThemes[1].mainBoxShadowColor);
-        themeControl.textContent = `Theme: ${colorThemes[1].themeName}`;
-    } else {
-        root.style.setProperty('--main-text-color', colorThemes[0].mainTextColor);
-        root.style.setProperty('--main-background-color', colorThemes[0].mainBackgroundColor);
-        root.style.setProperty('--main-notes-color', colorThemes[0].mainNotesColor);
-        root.style.setProperty('--main-box-shadow-color', colorThemes[0].mainBoxShadowColor);
-        themeControl.textContent = `Theme: ${colorThemes[0].themeName}`;
-    }
-}
-
-function toggleModalDisplay() {
-
-    if (modal.style.display == 'grid') {
-        modal.classList.remove('modal-open');
-        modal.style.display = 'none';
-        sortNotes();
-    } else {
-        modal.style.display = 'grid';
-        window.setTimeout( () => { modal.classList.add('modal-open') }, 25);
-        textArea.value = userNotes[index].noteContent.text; // Sets text area to content of note
-        let countedWords = document.getElementById('wordcount');
-        countedWords.innerHTML = 'Words:' + ' ' + userNotes[index].noteContent.wordCount;
-    }
-}
-
-function countWords(text) {
-    return text.match(/\w+/g).length;
-}
 
 function createNewNote() {
 
@@ -131,41 +96,9 @@ function saveNote() {
     localStorage.setItem('notes', JSON.stringify(userNotes));
 }
 
-// Create article element containing note information
-// Add event handler on article element
-// Inserts article element into the usernotes-viewer section
-function displayNotePreview(note) {
-    
-    const section = document.getElementById('usernotes-viewer');
-    const article = document.createElement('article');
-
-    const creationDate = note.noteContent.dateCreated;
-    const displayCreated = new Date(creationDate);
-
-    const editDate = note.noteContent.dateEdited;
-    const displayEdited = new Date(editDate);
-
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-
-    article.innerHTML = `
-    <div class="note-key">${note.noteKey}</div>
-    <p class="content-preview">${note.noteContent.text}</p>
-    <div class="dates">
-        <p class="created">Created: ${displayCreated.toLocaleDateString(undefined, options)}</p>
-        <p class="edited">Edited: ${displayEdited.toLocaleDateString(undefined, options)}</p>
-    </div>
-    `;
-
-    article.addEventListener('click', articleActions);
-    section.prepend(article);
-
-}
-
-function articleActions(e) {
-    let article = e.target;
-    let thisNoteKey = article.querySelector('div').textContent;
-    thisNoteKey = parseInt(thisNoteKey);
-    getNote(thisNoteKey);
+function deleteNote() {
+    userNotes.splice(index, 1);
+    localStorage.setItem('notes', JSON.stringify(userNotes));
     toggleModalDisplay();
 }
 
@@ -210,11 +143,11 @@ function selectAndDeleteNotes() {
 }
 
 
-function deleteNote() {
-    userNotes.splice(index, 1);
-    localStorage.setItem('notes', JSON.stringify(userNotes));
-    toggleModalDisplay();
-}
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// NOTE REORDERING
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 
 // Sorts notes array and redraws the usernotes-viewer
@@ -242,6 +175,73 @@ function sortNotes() {
 }
 
 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// VISUAL CHANGES
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+
+// Create article element containing note information
+// Add event handler on article element
+// Inserts article element into the usernotes-viewer section
+function displayNotePreview(note) {
+    
+    const section = document.getElementById('usernotes-viewer');
+    const article = document.createElement('article');
+
+    const creationDate = note.noteContent.dateCreated;
+    const displayCreated = new Date(creationDate);
+
+    const editDate = note.noteContent.dateEdited;
+    const displayEdited = new Date(editDate);
+
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+    article.innerHTML = `
+    <div class="note-key">${note.noteKey}</div>
+    <p class="content-preview">${note.noteContent.text}</p>
+    <div class="dates">
+        <p class="created">Created: ${displayCreated.toLocaleDateString(undefined, options)}</p>
+        <p class="edited">Edited: ${displayEdited.toLocaleDateString(undefined, options)}</p>
+    </div>
+    `;
+
+    article.addEventListener('click', articleActions);
+    section.prepend(article);
+
+}
+
+function toggleModalDisplay() {
+
+    if (modal.style.display == 'grid') {
+        modal.classList.remove('modal-open');
+        modal.style.display = 'none';
+        sortNotes();
+    } else {
+        modal.style.display = 'grid';
+        window.setTimeout( () => { modal.classList.add('modal-open') }, 25);
+        textArea.value = userNotes[index].noteContent.text; // Sets text area to content of note
+        let countedWords = document.getElementById('wordcount');
+        countedWords.innerHTML = 'Words:' + ' ' + userNotes[index].noteContent.wordCount;
+    }
+}
+
+function changeColorTheme() {
+    if (this.textContent.includes(colorThemes[0].themeName)) {
+        root.style.setProperty('--main-text-color', colorThemes[1].mainTextColor);
+        root.style.setProperty('--main-background-color', colorThemes[1].mainBackgroundColor);
+        root.style.setProperty('--main-notes-color', colorThemes[1].mainNotesColor);
+        root.style.setProperty('--main-box-shadow-color', colorThemes[1].mainBoxShadowColor);
+        themeControl.textContent = `Theme: ${colorThemes[1].themeName}`;
+    } else {
+        root.style.setProperty('--main-text-color', colorThemes[0].mainTextColor);
+        root.style.setProperty('--main-background-color', colorThemes[0].mainBackgroundColor);
+        root.style.setProperty('--main-notes-color', colorThemes[0].mainNotesColor);
+        root.style.setProperty('--main-box-shadow-color', colorThemes[0].mainBoxShadowColor);
+        themeControl.textContent = `Theme: ${colorThemes[0].themeName}`;
+    }
+}
 
 function changeGrid() {
     const section = document.getElementById('usernotes-viewer');
@@ -254,19 +254,41 @@ function changeGrid() {
     }
 }
 
-// Utility to find index value of object containing 
-// the supplied noteKey provided by displayNotePreview
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// UTILITIES
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+// Enable an article to be opened from the main display
+// Requires getNote() to identify note object
+function articleActions(e) {
+    let article = e.target;
+    let thisNoteKey = article.querySelector('div').textContent;
+    thisNoteKey = parseInt(thisNoteKey);
+    getNote(thisNoteKey);
+    toggleModalDisplay();
+}
+
+// Find index value of object containing the 
+// supplied noteKey provided by articleActions()
 function getNote(key) {
     index = userNotes.findIndex(note => note.noteKey === key);
     return index;
 }
 
-// Utility to clear the user-notes viewer. Calls displayNotePreview 
+// Clear the user-notes viewer. Calls displayNotePreview() 
 // to redraw and relink event listeners to notes
 function refresh() {
     const section = document.getElementById('usernotes-viewer');
     section.innerHTML = '';
     userNotes.forEach(note => displayNotePreview(note));
+}
+
+function countWords(text) {
+    return text.match(/\w+/g).length;
 }
 
 
