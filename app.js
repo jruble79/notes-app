@@ -110,7 +110,7 @@ function createNewNote() {
         noteKey: Date.now(),
         noteContent: {
             text: null,
-            dateCreated: Date.now(),
+            dateCreated: new Date().toJSON(),
             dateEdited: null,
             wordCount: 0
         }
@@ -125,7 +125,7 @@ function createNewNote() {
 function saveNote() {
     const thisNote = userNotes[index].noteContent;
     thisNote.text = textArea.value;
-    thisNote.dateEdited = Date.now();
+    thisNote.dateEdited = new Date();
     thisNote.wordCount = countWords(textArea.value);
     userNotes.push();
     localStorage.setItem('notes', JSON.stringify(userNotes));
@@ -135,13 +135,25 @@ function saveNote() {
 // Add event handler on article element
 // Inserts article element into the usernotes-viewer section
 function displayNotePreview(note) {
-
+    
     const section = document.getElementById('usernotes-viewer');
     const article = document.createElement('article');
 
+    const creationDate = note.noteContent.dateCreated;
+    const displayCreated = new Date(creationDate);
+
+    const editDate = note.noteContent.dateEdited;
+    const displayEdited = new Date(editDate);
+
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
     article.innerHTML = `
-    <div>${note.noteKey}</div>
-    <p>${note.noteContent.text}</p>
+    <div class="note-key">${note.noteKey}</div>
+    <p class="content-preview">${note.noteContent.text}</p>
+    <div class="dates">
+        <p class="created">Created: ${displayCreated.toLocaleDateString(undefined, options)}</p>
+        <p class="edited">Edited: ${displayEdited.toLocaleDateString(undefined, options)}</p>
+    </div>
     `;
 
     article.addEventListener('click', articleActions);
