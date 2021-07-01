@@ -96,6 +96,10 @@ textarea {
 
 
 article {
+    display: flex;
+    flex-direction: column;
+    flex-flow: wrap;
+    align-content: space-between;
     padding: 1rem;
     background-color: var(--main-notes-color);
     overflow-y: hidden;
@@ -103,8 +107,18 @@ article {
     transition: transform .15s, background-color .15s;
 }
 
-article div {
+.note-key {
     display: none;
+}
+
+.content-preview {
+    overflow-y: hidden;
+    width: 100%;
+}
+
+.dates p {
+    opacity: .4;
+    margin: 0;
 }
 
 article:active {
