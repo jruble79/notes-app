@@ -3,6 +3,7 @@
     --main-background-color: rgb(255, 255, 255);
     --main-notes-color: rgb(255, 232, 132);
     --main-box-shadow-color: rgb(211, 211, 211);
+    --main-note-highlight-color: rgb(255, 226, 95);
 }
 
 html {
@@ -123,10 +124,10 @@ article {
 
 article:active {
     transform: scale(.9);
-    background-color: rgb(255, 226, 95);
+    background-color: var(--main-note-highlight-color);
 }
 
 .article-active {
     transform: scale(1);
-    background-color: rgb(255, 226, 95);
+    background-color: var(--main-note-highlight-color);
 }
