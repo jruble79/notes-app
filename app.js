@@ -88,8 +88,9 @@ userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
 sortBy.textContent = 'Sort: Date Edited (Descending)';
 
 // Set initial color theme to Light
-themeControl.textContent = 'Theme: Light';
 buildDropdownMenu();
+themeControl.querySelector('#theme-control li:first-of-type').innerText = `Theme: ${colorThemes[0].themeName}`;
+themeControl.querySelector('#theme-list').style.display = 'none';
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
@@ -263,9 +264,20 @@ function toggleModalDisplay() {
     }
 }
 
+function toggleThemeList() {
+    const themeList = themeControl.querySelector('#theme-list');
+    if (themeList.style.display === 'block') {
+        themeList.style.display = 'none';
+    } else {
+        themeList.style.display = 'block';
+    }
+}
+
 function setTheme(e) {
     index = colorThemes.findIndex(theme => theme.themeName === e.target.textContent);
     colorThemes[index].properties.forEach(property => root.style.setProperty(property.propertyName, property.propertyValue));
+    themeControl.querySelector('#theme-control li:first-of-type').innerText = `Theme: ${colorThemes[index].themeName}`;
+    toggleThemeList();
 }
 
 function changeGrid() {
@@ -317,7 +329,8 @@ function countWords(text) {
 }
 
 function buildDropdownMenu() {
-    themeControl.innerHTML += `<ul></ul>`;
+    themeControl.innerHTML = `<li></li>`;
+    themeControl.innerHTML += `<ul id="theme-list"></ul>`;
     colorThemes.forEach(theme => themeControl.querySelector('ul').innerHTML += `<li>${theme.themeName}</li>`);
 }
 
@@ -345,8 +358,11 @@ textArea.addEventListener('input', () => {
 // Save the note with every character stroke
 textArea.addEventListener('input', saveNote);
 
+// Hide/Show color theme list
+document.querySelector('#theme-control li:first-of-type').addEventListener('click', toggleThemeList);
+
 // Change color theme
-themeControl.addEventListener('click', setTheme);
+themeControl.querySelector('#theme-list').addEventListener('click', setTheme);
 
 // Change grid display
 gridControl.addEventListener('click', changeGrid);
