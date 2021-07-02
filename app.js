@@ -15,23 +15,56 @@ let root = document.documentElement;
 
 const colorThemes = [
 
-    {
-        themeName: 'Light',
-        mainTextColor: 'rgb(0, 0, 0)',
-        mainBackgroundColor: 'rgb(255, 255, 255)',
-        mainNotesColor: 'rgb(255, 232, 132)',
-        mainBoxShadowColor: 'rgb(211, 211, 211)',
-        mainNoteHighlightColor: 'rgb(255, 226, 95)'
-    },
-    {
-        themeName: 'Dark',
-        mainTextColor: 'rgb(255, 255, 255)',
-        mainBackgroundColor: 'rgb(0, 0, 0)',
-        mainNotesColor: 'rgb(75, 75, 75)',
-        mainBoxShadowColor: 'rgb(75, 75, 75)',
-        mainNoteHighlightColor: 'rgb(100, 100, 100)'
-    }
-
+        { 
+            themeName: 'Light',
+            properties: new Array (
+                { 
+                    propertyName: '--main-text-color',
+                    propertyValue: 'rgb(0, 0, 0)' 
+                },
+                {
+                    propertyName: '--main-background-color',
+                    propertyValue: 'rgb(255, 255, 255)'
+                },
+                {
+                    propertyName: '--main-notes-color',
+                    propertyValue: 'rgb(255, 232, 132)'
+                },
+                {
+                    propertyName: '--main-box-shadow-color',
+                    propertyValue: 'rgb(211, 211, 211)'
+                },
+                {
+                    propertyName: '--main-note-highlight-color',
+                    propertyValue: 'rgb(255, 226, 95)'
+                }
+            )
+        },
+        { 
+            themeName: 'Dark',
+            properties: new Array (
+                { 
+                    propertyName: '--main-text-color',
+                    propertyValue: 'rgb(255, 255, 255)'
+                },
+                {
+                    propertyName: '--main-background-color',
+                    propertyValue: 'rgb(0, 0, 0)'
+                },
+                {
+                    propertyName: '--main-notes-color',
+                    propertyValue: 'rgb(75, 75, 75)'
+                },
+                {
+                    propertyName: '--main-box-shadow-color',
+                    propertyValue: 'rgb(75, 75, 75)'
+                },
+                {
+                    propertyName: '--main-note-highlight-color',
+                    propertyValue: 'rgb(100, 100, 100)'
+                }
+            )
+        }
 ];
 
 
@@ -56,6 +89,7 @@ sortBy.textContent = 'Sort: Date Edited (Descending)';
 
 // Set initial color theme to Light
 themeControl.textContent = 'Theme: Light';
+buildDropdownMenu();
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
@@ -229,22 +263,9 @@ function toggleModalDisplay() {
     }
 }
 
-function changeColorTheme() {
-    if (this.textContent.includes(colorThemes[0].themeName)) {
-        root.style.setProperty('--main-text-color', colorThemes[1].mainTextColor);
-        root.style.setProperty('--main-background-color', colorThemes[1].mainBackgroundColor);
-        root.style.setProperty('--main-notes-color', colorThemes[1].mainNotesColor);
-        root.style.setProperty('--main-box-shadow-color', colorThemes[1].mainBoxShadowColor);
-        root.style.setProperty('--main-note-highlight-color', colorThemes[1].mainNoteHighlightColor);
-        themeControl.textContent = `Theme: ${colorThemes[1].themeName}`;
-    } else {
-        root.style.setProperty('--main-text-color', colorThemes[0].mainTextColor);
-        root.style.setProperty('--main-background-color', colorThemes[0].mainBackgroundColor);
-        root.style.setProperty('--main-notes-color', colorThemes[0].mainNotesColor);
-        root.style.setProperty('--main-box-shadow-color', colorThemes[0].mainBoxShadowColor);
-        root.style.setProperty('--main-note-highlight-color', colorThemes[1].mainNoteHighlightColor);
-        themeControl.textContent = `Theme: ${colorThemes[0].themeName}`;
-    }
+function setTheme(e) {
+    index = colorThemes.findIndex(theme => theme.themeName === e.target.textContent);
+    colorThemes[index].properties.forEach(property => root.style.setProperty(property.propertyName, property.propertyValue));
 }
 
 function changeGrid() {
@@ -279,7 +300,7 @@ function articleActions(e) {
 // Find index value of object containing the 
 // supplied noteKey provided by articleActions()
 function getNote(key) {
-    index = userNotes.findIndex(note => note.noteKey === key);
+    index = userNotes.setTheme(note => note.noteKey === key);
     return index;
 }
 
@@ -293,6 +314,11 @@ function refresh() {
 
 function countWords(text) {
     return text.match(/\w+/g).length;
+}
+
+function buildDropdownMenu() {
+    themeControl.innerHTML += `<ul></ul>`;
+    colorThemes.forEach(theme => themeControl.querySelector('ul').innerHTML += `<li>${theme.themeName}</li>`);
 }
 
 
@@ -320,7 +346,7 @@ textArea.addEventListener('input', () => {
 textArea.addEventListener('input', saveNote);
 
 // Change color theme
-themeControl.addEventListener('click', changeColorTheme);
+themeControl.addEventListener('click', setTheme);
 
 // Change grid display
 gridControl.addEventListener('click', changeGrid);
