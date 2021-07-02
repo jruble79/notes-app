@@ -1,6 +1,6 @@
 
 
-const newNoteButton = document.querySelector('nav ul li');
+const newNoteButton = document.querySelector('header ul li');
 const gridControl = document.getElementById('grid');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
