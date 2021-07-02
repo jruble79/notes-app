@@ -312,7 +312,7 @@ function articleActions(e) {
 // Find index value of object containing the 
 // supplied noteKey provided by articleActions()
 function getNote(key) {
-    index = userNotes.setTheme(note => note.noteKey === key);
+    index = userNotes.findIndex(note => note.noteKey === key);
     return index;
 }
 
