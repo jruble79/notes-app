@@ -15,6 +15,22 @@ let root = document.documentElement;
 
 const colorThemes = [
 
+    // New colorThemes objects must follow the following structure to be read by setTheme(): 
+    //
+    //      Object with two key-value pairs: 
+    //          A key of 'themeName' and value of the name of the theme
+    //          A key of 'properties' and a value initiating a new Array
+    //              Inside the new Array are objects describing theme properties and values
+    //                  A key of 'propertyName' and value of a CSS variable name
+    //                  A key of 'propertyValue' and a value of the CSS variable's desired color value
+    //
+    //      Current propertyName values are:
+    //          --main-text-color
+    //          --main-background-color
+    //          --main-notes-color
+    //          --main-box-shadow-color
+    //          --main-note-highlight-color
+
         { 
             themeName: 'Light',
             properties: new Array (
@@ -274,6 +290,23 @@ function toggleThemeList() {
 }
 
 function setTheme(e) {
+
+    // Requires any new colorThemes objects to follow a nested structure as follows: 
+    //
+    //      Object with two key-value pairs: 
+    //          A key of 'themeName' and value of the name of the theme
+    //          A key of 'properties' and a value initiating a new Array
+    //              Inside the new Array are objects describing theme properties and values
+    //                  A key of 'propertyName' and value of a CSS variable name
+    //                  A key of 'propertyValue' and a value of the CSS variable's desired color value
+    //
+    //      Current propertyName values are:
+    //          --main-text-color
+    //          --main-background-color
+    //          --main-notes-color
+    //          --main-box-shadow-color
+    //          --main-note-highlight-color
+
     index = colorThemes.findIndex(theme => theme.themeName === e.target.textContent);
     colorThemes[index].properties.forEach(property => root.style.setProperty(property.propertyName, property.propertyValue));
     themeControl.querySelector('#theme-control li:first-of-type').innerText = `Theme: ${colorThemes[index].themeName}`;
