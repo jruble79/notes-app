@@ -155,6 +155,36 @@ function deleteNote() {
     toggleModalDisplay();
 }
 
+// Create article element containing note information
+// Add event handler on article element
+// Inserts article element into the usernotes-viewer section
+function displayNotePreview(note) {
+    
+    const section = document.getElementById('usernotes-viewer');
+    const article = document.createElement('article');
+
+    const creationDate = note.noteContent.dateCreated;
+    const displayCreated = new Date(creationDate);
+
+    const editDate = note.noteContent.dateEdited;
+    const displayEdited = new Date(editDate);
+
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+    article.innerHTML = `
+    <div class="note-key">${note.noteKey}</div>
+    <p class="content-preview">${note.noteContent.text}</p>
+    <div class="dates">
+        <p class="created">Created: ${displayCreated.toLocaleDateString(undefined, options)}</p>
+        <p class="edited">Edited: ${displayEdited.toLocaleDateString(undefined, options)}</p>
+    </div>
+    `;
+
+    article.addEventListener('click', articleActions);
+    section.prepend(article);
+
+}
+
 function selectAndDeleteNotes() {
     let article = document.querySelectorAll('article');
     let notesToTrash = [];
@@ -234,36 +264,6 @@ function sortNotes() {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-
-// Create article element containing note information
-// Add event handler on article element
-// Inserts article element into the usernotes-viewer section
-function displayNotePreview(note) {
-    
-    const section = document.getElementById('usernotes-viewer');
-    const article = document.createElement('article');
-
-    const creationDate = note.noteContent.dateCreated;
-    const displayCreated = new Date(creationDate);
-
-    const editDate = note.noteContent.dateEdited;
-    const displayEdited = new Date(editDate);
-
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-
-    article.innerHTML = `
-    <div class="note-key">${note.noteKey}</div>
-    <p class="content-preview">${note.noteContent.text}</p>
-    <div class="dates">
-        <p class="created">Created: ${displayCreated.toLocaleDateString(undefined, options)}</p>
-        <p class="edited">Edited: ${displayEdited.toLocaleDateString(undefined, options)}</p>
-    </div>
-    `;
-
-    article.addEventListener('click', articleActions);
-    section.prepend(article);
-
-}
 
 function toggleModalDisplay() {
 
