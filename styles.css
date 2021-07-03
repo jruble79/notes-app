@@ -13,6 +13,7 @@ html {
     color: var(--main-text-color);
     background-color: var(--main-background-color);
     height: 100vh;
+    transition: color .15s, background-color .15s;
 }
 
 body {
@@ -28,7 +29,7 @@ li {
     cursor: pointer;
 }
 
-/* NAVIGATION STYLES */
+/* HEADER STYLES */
 
 header ul, 
 footer ul,
@@ -43,6 +44,25 @@ footer ul,
 
 header, #modal-header {
     margin-bottom: 1.5rem;
+}
+
+#theme-control {
+}
+
+#theme-list {
+    position: absolute;
+    z-index: 1;
+}
+
+#theme-list li {
+    background-color: var(--main-background-color);
+    padding: .5rem 0;
+    width: 200%;
+    transition: background-color .25s;
+}
+
+#theme-list li:hover {
+    background-color: var(--main-note-highlight-color);
 }
 
 footer, #modal-footer {
@@ -60,7 +80,6 @@ footer, #modal-footer {
 /* MODAL STYLES */
 
 #modal {
-    /* display: none; */
     grid-template-rows: max-content 1fr max-content;
 }
 
@@ -128,6 +147,6 @@ article:active {
 }
 
 .article-active {
-    transform: scale(1);
+    transform: scale(1.05);
     background-color: var(--main-note-highlight-color);
 }
