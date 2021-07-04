@@ -83,6 +83,31 @@ const colorThemes = [
         }
 ];
 
+const sortingOptions = [
+    {
+        sortName: 'Edited',
+        sortDirection: 'Descending',
+        sortNoteMethod: 'dateEdited'
+    },
+    {
+        sortName: 'Edited',
+        sortDirection: 'Ascending',
+        sortNoteMethod: 'dateEdited',
+        sortDirectionMethod: '.reverse()'
+    },
+    {
+        sortName: 'Created',
+        sortDirection: 'Descending',
+        sortNoteMethod: 'dateCreated' 
+    },
+    {
+        sortName: 'Created',
+        sortDirection: 'Ascending',
+        sortNoteMethod: 'dateCreated',
+        sortDirectionMethod: '.reverse()'
+    }
+];
+
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -100,11 +125,12 @@ modal.classList.add('modal-closed');
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
 // Sort notes by edited date on page load
-userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
-sortBy.textContent = 'Sort: Date Edited (Descending)';
+buildSortDropdownMenu();
+userNotes.sort((a, b) => new Date(a.noteContent.dateEdited) - new Date(b.noteContent.dateEdited));
+sortBy.querySelector('#sort li:first-of-type').innerText = `Sort: ${sortingOptions[0].sortName} ${sortingOptions[0].sortDirection}`;
 
 // Set initial color theme to Light
-buildDropdownMenu();
+buildThemeDropdownMenu();
 themeControl.querySelector('#theme-control li:first-of-type').innerText = `Theme: ${colorThemes[0].themeName}`;
 themeControl.querySelector('#theme-list').style.display = 'none';
 
@@ -234,22 +260,11 @@ function selectAndDeleteNotes() {
 
 
 // Sorts notes array and redraws the usernotes-viewer
-function sortNotes() {
+function sortNotes(e) {
 
-    let sortingLabel = sortBy.textContent;
-    if (sortingLabel.includes('Date Edited (Descending)')) {
-        userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited).reverse();
-        sortBy.textContent = 'Sort: Date Edited (Ascending)';
-    } else if (sortingLabel.includes('Sort: Date Edited (Ascending)')) {
-        userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated);
-        sortBy.textContent = 'Sort: Date Created (Descending)';
-    } else if (sortingLabel.includes('Sort: Date Created (Descending)')) {
-        userNotes.sort((a, b) => a.noteContent.dateCreated - b.noteContent.dateCreated).reverse();
-        sortBy.textContent = 'Sort: Date Created (Ascending)';
-    } else if (sortingLabel.includes('Sort: Date Created (Ascending)')) {
-        userNotes.sort((a, b) => a.noteContent.dateEdited - b.noteContent.dateEdited);
-        sortBy.textContent = 'Sort: Date Edited (Descending)';
-    }
+    index = sortingOptions.findIndex(option => `${option.sortName} ${option.sortDirection}` === e.target.textContent);
+    const method = sortingOptions[index].sortNoteMethod;
+    userNotes.sort( (a, b) => new Date(a.noteContent[method]) - new Date(b.noteContent[method]) );
 
     // Save newly re-ordered array to Local Storage
     localStorage.setItem('notes', JSON.stringify(userNotes));
@@ -270,7 +285,7 @@ function toggleModalDisplay() {
     if (modal.style.display == 'grid') {
         modal.classList.remove('modal-open');
         modal.style.display = 'none';
-        sortNotes();
+        refresh();
     } else {
         modal.style.display = 'grid';
         window.setTimeout( () => { modal.classList.add('modal-open') }, 25);
@@ -361,10 +376,16 @@ function countWords(text) {
     return text.match(/\w+/g).length;
 }
 
-function buildDropdownMenu() {
+function buildThemeDropdownMenu() {
     themeControl.innerHTML = `<li></li>`;
     themeControl.innerHTML += `<ul id="theme-list"></ul>`;
     colorThemes.forEach(theme => themeControl.querySelector('ul').innerHTML += `<li>${theme.themeName}</li>`);
+}
+
+function buildSortDropdownMenu() {
+    sortBy.innerHTML = `<li></li>`;
+    sortBy.innerHTML += `<ul id="sort-list"></ul>`;
+    sortingOptions.forEach(sortMethod => sortBy.querySelector('ul').innerHTML += `<li>${sortMethod.sortName} ${sortMethod.sortDirection}</li>`);
 }
 
 
@@ -404,7 +425,7 @@ gridControl.addEventListener('click', changeGrid);
 trash.addEventListener('click', deleteNote);
 
 // Sort the notes by creation date and edit date
-sortBy.addEventListener('click', sortNotes);
+sortBy.querySelector('#sort-list').addEventListener('click', sortNotes);
 
 // Select multiple notes
 selectButton.addEventListener('click', selectAndDeleteNotes);
