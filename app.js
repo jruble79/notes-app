@@ -12,6 +12,15 @@ let textArea = document.querySelector('textarea');
 let index;
 let thisNoteKey;
 let root = document.documentElement;
+let method;
+let order;
+
+// Set up basic user preferences
+let userPreferences = {
+    sortMethod: 'dateEdited',
+    sortOrder: 'down'
+}
+
 
 const colorThemes = [
 
@@ -83,30 +92,6 @@ const colorThemes = [
         }
 ];
 
-const sortingOptions = [
-    {
-        sortName: 'Edited',
-        sortDirection: 'Descending',
-        sortNoteMethod: 'dateEdited'
-    },
-    {
-        sortName: 'Edited',
-        sortDirection: 'Ascending',
-        sortNoteMethod: 'dateEdited',
-        sortDirectionMethod: '.reverse()'
-    },
-    {
-        sortName: 'Created',
-        sortDirection: 'Descending',
-        sortNoteMethod: 'dateCreated' 
-    },
-    {
-        sortName: 'Created',
-        sortDirection: 'Ascending',
-        sortNoteMethod: 'dateCreated',
-        sortDirectionMethod: '.reverse()'
-    }
-];
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -125,9 +110,9 @@ modal.classList.add('modal-closed');
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
 // Sort notes by edited date on page load
-buildSortDropdownMenu();
+// buildSortDropdownMenu();
 userNotes.sort((a, b) => new Date(a.noteContent.dateEdited) - new Date(b.noteContent.dateEdited));
-sortBy.querySelector('#sort li:first-of-type').innerText = `Sort: ${sortingOptions[0].sortName} ${sortingOptions[0].sortDirection}`;
+// sortBy.querySelector('#sort li:first-of-type').innerText = `Sort: ${sortingOptions[0].sortName}`;
 
 // Set initial color theme to Light
 buildThemeDropdownMenu();
@@ -260,16 +245,31 @@ function selectAndDeleteNotes() {
 
 
 // Sorts notes array and redraws the usernotes-viewer
-function sortNotes(e) {
+function sortNotes(method = userPreferences.sortMethod, order = userPreferences.sortOrder) {
 
-    index = sortingOptions.findIndex(option => `${option.sortName} ${option.sortDirection}` === e.target.textContent);
-    const method = sortingOptions[index].sortNoteMethod;
-    userNotes.sort( (a, b) => new Date(a.noteContent[method]) - new Date(b.noteContent[method]) );
+    console.log(method, order);
 
-    // Save newly re-ordered array to Local Storage
+    if (order === 'down') {
+        userNotes.sort( (a, b) => new Date(a.noteContent[method]) - new Date(b.noteContent[method]) );
+    } else if (order === 'up') {
+        userNotes.sort( (a, b) => new Date(b.noteContent[method]) - new Date(a.noteContent[method]) );
+    };
+
     localStorage.setItem('notes', JSON.stringify(userNotes));
     refresh();  
+    
+}
 
+function getSortMethod(e) {
+    const method = e.target.dataset.method;
+    userPreferences.sortMethod = method;
+    sortNotes(method, order);
+}
+
+function getSortOrder(e) {
+    const order = e.target.dataset.order;
+    userPreferences.sortOrder = order;
+    sortNotes(method, order);
 }
 
 
@@ -382,11 +382,11 @@ function buildThemeDropdownMenu() {
     colorThemes.forEach(theme => themeControl.querySelector('ul').innerHTML += `<li>${theme.themeName}</li>`);
 }
 
-function buildSortDropdownMenu() {
-    sortBy.innerHTML = `<li></li>`;
-    sortBy.innerHTML += `<ul id="sort-list"></ul>`;
-    sortingOptions.forEach(sortMethod => sortBy.querySelector('ul').innerHTML += `<li>${sortMethod.sortName} ${sortMethod.sortDirection}</li>`);
-}
+// function buildSortDropdownMenu() {
+//     sortBy.innerHTML = `<li></li>`;
+//     sortBy.innerHTML += `<ul id="sort-list"></ul>`;
+//     sortingOptions.forEach(sortMethod => sortBy.querySelector('ul').innerHTML += `<li>${sortMethod.sortName} ${sortMethod.sortDirection}</li>`);
+// }
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -425,7 +425,8 @@ gridControl.addEventListener('click', changeGrid);
 trash.addEventListener('click', deleteNote);
 
 // Sort the notes by creation date and edit date
-sortBy.querySelector('#sort-list').addEventListener('click', sortNotes);
+sortBy.querySelector('ul:first-child').addEventListener('click', getSortMethod);
+sortBy.querySelector('ul:last-child').addEventListener('click', getSortOrder);
 
 // Select multiple notes
 selectButton.addEventListener('click', selectAndDeleteNotes);
