@@ -46,9 +46,6 @@ header, #modal-header {
     margin-bottom: 1.5rem;
 }
 
-#theme-control {
-}
-
 #theme-list {
     position: absolute;
     z-index: 1;
@@ -149,4 +146,17 @@ article:active {
 .article-active {
     transform: scale(1.05);
     background-color: var(--main-note-highlight-color);
+}
+
+#sort {
+    display: flex;
+    flex-direction: row;
+}
+
+#sort ul {
+    flex-direction: column;
+}
+
+#sort ul:last-child {
+    margin-left: 1rem;
 }
