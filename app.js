@@ -93,7 +93,6 @@ const colorThemes = [
 ];
 
 
-
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // ON PAGE LOAD
@@ -110,14 +109,10 @@ modal.classList.add('modal-closed');
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
 // Sort notes by edited date on page load
-// buildSortDropdownMenu();
 userNotes.sort((a, b) => new Date(a.noteContent.dateEdited) - new Date(b.noteContent.dateEdited));
-// sortBy.querySelector('#sort li:first-of-type').innerText = `Sort: ${sortingOptions[0].sortName}`;
 
 // Set initial color theme to Light
 buildThemeDropdownMenu();
-themeControl.querySelector('#theme-control li:first-of-type').innerText = `Theme: ${colorThemes[0].themeName}`;
-themeControl.querySelector('#theme-list').style.display = 'none';
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
@@ -247,8 +242,6 @@ function selectAndDeleteNotes() {
 // Sorts notes array and redraws the usernotes-viewer
 function sortNotes(method = userPreferences.sortMethod, order = userPreferences.sortOrder) {
 
-    console.log(method, order);
-
     if (order === 'down') {
         userNotes.sort( (a, b) => new Date(a.noteContent[method]) - new Date(b.noteContent[method]) );
     } else if (order === 'up') {
@@ -261,13 +254,17 @@ function sortNotes(method = userPreferences.sortMethod, order = userPreferences.
 }
 
 function getSortMethod(e) {
-    const method = e.target.dataset.method;
+    const selectedOption = sortBy.querySelector('#method');
+    const index = e.target.selectedIndex
+    method = selectedOption[index].dataset.method;
     userPreferences.sortMethod = method;
     sortNotes(method, order);
 }
 
 function getSortOrder(e) {
-    const order = e.target.dataset.order;
+    const selectedOption = sortBy.querySelector('#order');
+    const index = e.target.selectedIndex
+    order = selectedOption[index].dataset.order;
     userPreferences.sortOrder = order;
     sortNotes(method, order);
 }
@@ -295,15 +292,6 @@ function toggleModalDisplay() {
     }
 }
 
-function toggleThemeList() {
-    const themeList = themeControl.querySelector('#theme-list');
-    if (themeList.style.display === 'block') {
-        themeList.style.display = 'none';
-    } else {
-        themeList.style.display = 'block';
-    }
-}
-
 function setTheme(e) {
 
     // Requires any new colorThemes objects to follow a nested structure as follows: 
@@ -322,10 +310,8 @@ function setTheme(e) {
     //          --main-box-shadow-color
     //          --main-note-highlight-color
 
-    index = colorThemes.findIndex(theme => theme.themeName === e.target.textContent);
+    const index = e.target.selectedIndex;
     colorThemes[index].properties.forEach(property => root.style.setProperty(property.propertyName, property.propertyValue));
-    themeControl.querySelector('#theme-control li:first-of-type').innerText = `Theme: ${colorThemes[index].themeName}`;
-    toggleThemeList();
 }
 
 function changeGrid() {
@@ -350,6 +336,7 @@ function changeGrid() {
 // Enable an article to be opened from the main display
 // Requires getNote() to identify note object
 function articleActions(e) {
+    console.log(e.path);
     let article = e.target;
     let thisNoteKey = article.querySelector('div').textContent;
     thisNoteKey = parseInt(thisNoteKey);
@@ -377,16 +364,9 @@ function countWords(text) {
 }
 
 function buildThemeDropdownMenu() {
-    themeControl.innerHTML = `<li></li>`;
-    themeControl.innerHTML += `<ul id="theme-list"></ul>`;
-    colorThemes.forEach(theme => themeControl.querySelector('ul').innerHTML += `<li>${theme.themeName}</li>`);
+    themeControl.innerHTML += `<select id="theme-list"></select>`;
+    colorThemes.forEach(theme => themeControl.querySelector('select').innerHTML += `<option>${theme.themeName}</option>`);
 }
-
-// function buildSortDropdownMenu() {
-//     sortBy.innerHTML = `<li></li>`;
-//     sortBy.innerHTML += `<ul id="sort-list"></ul>`;
-//     sortingOptions.forEach(sortMethod => sortBy.querySelector('ul').innerHTML += `<li>${sortMethod.sortName} ${sortMethod.sortDirection}</li>`);
-// }
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -412,11 +392,8 @@ textArea.addEventListener('input', () => {
 // Save the note with every character stroke
 textArea.addEventListener('input', saveNote);
 
-// Hide/Show color theme list
-document.querySelector('#theme-control li:first-of-type').addEventListener('click', toggleThemeList);
-
 // Change color theme
-themeControl.querySelector('#theme-list').addEventListener('click', setTheme);
+themeControl.querySelector('#theme-list').addEventListener('change', setTheme);
 
 // Change grid display
 gridControl.addEventListener('click', changeGrid);
@@ -425,8 +402,8 @@ gridControl.addEventListener('click', changeGrid);
 trash.addEventListener('click', deleteNote);
 
 // Sort the notes by creation date and edit date
-sortBy.querySelector('ul:first-child').addEventListener('click', getSortMethod);
-sortBy.querySelector('ul:last-child').addEventListener('click', getSortOrder);
+sortBy.querySelector('#method').addEventListener('change', getSortMethod);
+sortBy.querySelector('#order').addEventListener('change', getSortOrder);
 
 // Select multiple notes
 selectButton.addEventListener('click', selectAndDeleteNotes);
