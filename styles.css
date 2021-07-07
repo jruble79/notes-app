@@ -141,6 +141,7 @@ article {
 }
 
 .content-preview {
+    margin: 0;
     overflow-y: hidden;
     width: 100%;
 }
