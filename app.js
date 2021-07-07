@@ -316,7 +316,6 @@ function setTheme(e) {
 
 function changeGrid(e) {
     const index = e.target.selectedIndex;
-    // console.log(index);
     const section = document.getElementById('usernotes-viewer');
     if (index === 0) {
         section.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 2fr))';
@@ -335,9 +334,8 @@ function changeGrid(e) {
 
 // Enable an article to be opened from the main display
 // Requires getNote() to identify note object
-function articleActions(e) {
-    console.log(e.path);
-    let article = e.target;
+function articleActions() {
+    let article = this; // 'this' is linked to the article element
     let thisNoteKey = article.querySelector('div').textContent;
     thisNoteKey = parseInt(thisNoteKey);
     getNote(thisNoteKey);
