@@ -250,7 +250,22 @@ function sortNotes(method = userPreferences.sortMethod, order = userPreferences.
 
     localStorage.setItem('notes', JSON.stringify(userNotes));
     refresh();  
-    
+    showActiveSortDate(method);
+
+}
+
+function showActiveSortDate(method) {
+    const created = document.querySelectorAll('.created');
+    const edited = document.querySelectorAll('.edited');
+
+    if (method === 'dateEdited') {
+        created.forEach(item => item.classList.add('hidden'));
+        edited.forEach(item => item.classList.remove('hidden'));
+    } else if (method === 'dateCreated') {
+        edited.forEach(item => item.classList.add('hidden'));
+        created.forEach(item => item.classList.remove('hidden'));
+    }
+
 }
 
 function getSortMethod(e) {
