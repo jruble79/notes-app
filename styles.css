@@ -1,3 +1,7 @@
+/* ////////////////////////////////////////////////////////// */
+/* COLOR STYLES ///////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////// */
+
 :root {
     --main-text-color: rgb(0, 0, 0);
     --main-background-color: rgb(255, 255, 255);
@@ -5,6 +9,10 @@
     --main-box-shadow-color: rgb(211, 211, 211);
     --main-note-highlight-color: rgb(255, 226, 95);
 }
+
+/* ////////////////////////////////////////////////////////// */
+/* GLOBAL STYLES ///////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////// */
 
 html {
     box-sizing: border-box;
@@ -29,7 +37,17 @@ li {
     cursor: pointer;
 }
 
-/* HEADER STYLES */
+select {
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    background-color: var(--main-background-color);
+    color: var(--main-text-color);
+}
+
+/* ////////////////////////////////////////////////////////// */
+/* HEADER / FOOTER STYLES /////////////////////////////////// */
+/* ////////////////////////////////////////////////////////// */
 
 header ul, 
 footer ul,
@@ -46,6 +64,14 @@ header, #modal-header {
     margin-bottom: 1.5rem;
 }
 
+footer, #modal-footer {
+    margin-top: 1.5rem;
+}
+
+/* ////////////////////////////////////////////////////////// */
+/* THEME DROPDOWN /////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////// */
+
 #theme-list {
     position: absolute;
     z-index: 1;
@@ -53,7 +79,7 @@ header, #modal-header {
 
 #theme-list li {
     background-color: var(--main-background-color);
-    padding: .5rem 0;
+    padding: .5rem;
     width: 200%;
     transition: background-color .25s;
 }
@@ -62,19 +88,10 @@ header, #modal-header {
     background-color: var(--main-note-highlight-color);
 }
 
-footer, #modal-footer {
-    margin-top: 1.5rem;
-}
+/* ////////////////////////////////////////////////////////// */
+/* MODAL STYLES ///////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////// */
 
-#usernotes-viewer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
-    grid-auto-rows: 150px;
-    gap: 1rem;
-    overflow-y: scroll;
-}
-
-/* MODAL STYLES */
 
 #modal {
     grid-template-rows: max-content 1fr max-content;
@@ -99,7 +116,6 @@ footer, #modal-footer {
     opacity: 1 ;
 }
 
-
 textarea {
     border: 0;
     padding: 0;
@@ -111,7 +127,6 @@ textarea {
     font-family: 'Roboto', sans-serif;
 }
 
-
 article {
     display: flex;
     flex-direction: column;
@@ -122,6 +137,14 @@ article {
     overflow-y: hidden;
     transform: scale(1);
     transition: transform .15s, background-color .15s;
+}
+
+#usernotes-viewer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
+    grid-auto-rows: 150px;
+    gap: 1rem;
+    overflow-y: scroll;
 }
 
 .note-key {
@@ -160,3 +183,8 @@ article:active {
 #sort ul:last-child {
     margin-left: 1rem;
 }
+
+footer ul {
+    align-items: flex-end;
+}
+
