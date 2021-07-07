@@ -43,14 +43,14 @@
         <footer>
             <ul>
                 <li id="sort">
-                    <ul>
-                        <li data-method = "dateEdited">Sort: Edited</li>
-                        <li data-method = "dateCreated">Sort: Created</li>
-                    </ul>
-                    <ul>
-                        <li data-order = "down">Descending</li>
-                        <li data-order = "up">Ascending</li>
-                    </ul>
+                    <select id="method">
+                        <option data-method = "dateEdited">Sort: Edited</option>
+                        <option data-method = "dateCreated">Sort: Created</option>
+                    </select>
+                    <select id="order">
+                        <option data-order = "down">Descending</option>
+                        <option data-order = "up">Ascending</option>
+                    </select>
                 </li>
                 <li id="select">Select</li>
             </ul>
