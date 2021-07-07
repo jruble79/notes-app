@@ -118,7 +118,7 @@ buildThemeDropdownMenu();
 userNotes.forEach(note => displayNotePreview(note));
 
 // Set grid display
-gridControl.textContent = 'Display: Grid';
+// gridControl.textContent = 'Display: Grid';
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -314,14 +314,14 @@ function setTheme(e) {
     colorThemes[index].properties.forEach(property => root.style.setProperty(property.propertyName, property.propertyValue));
 }
 
-function changeGrid() {
+function changeGrid(e) {
+    const index = e.target.selectedIndex;
+    // console.log(index);
     const section = document.getElementById('usernotes-viewer');
-    if (gridControl.textContent.includes('Grid')) {
-        section.style.gridTemplateColumns = '1fr';
-        gridControl.textContent = 'Display: List';
-    } else {
+    if (index === 0) {
         section.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 2fr))';
-        gridControl.textContent = 'Display: Grid';
+    } else {
+        section.style.gridTemplateColumns = '1fr';
     }
 }
 
@@ -396,7 +396,7 @@ textArea.addEventListener('input', saveNote);
 themeControl.querySelector('#theme-list').addEventListener('change', setTheme);
 
 // Change grid display
-gridControl.addEventListener('click', changeGrid);
+gridControl.addEventListener('change', changeGrid);
 
 // Delete an existing note
 trash.addEventListener('click', deleteNote);
