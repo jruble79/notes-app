@@ -8,6 +8,7 @@ const selectButton = document.getElementById('select');
 const modal = document.getElementById('modal');
 const trash = document.getElementById('trash');
 const sortBy = document.getElementById('sort');
+const textCounter = document.getElementById('text-count');
 let textArea = document.querySelector('textarea');
 let index;
 let thisNoteKey;
@@ -18,7 +19,8 @@ let order;
 // Set up basic user preferences
 let userPreferences = {
     sortMethod: 'dateEdited',
-    sortOrder: 'down'
+    sortOrder: 'down',
+    countIndex: 0
 }
 
 
@@ -148,7 +150,7 @@ function saveNote() {
     const thisNote = userNotes[index].noteContent;
     thisNote.text = textArea.value;
     thisNote.dateEdited = new Date();
-    thisNote.wordCount = countWords(textArea.value);
+    thisNote.wordCount = textArea.value.match(/\w+/g).length;
     userNotes.push();
     localStorage.setItem('notes', JSON.stringify(userNotes));
 }
@@ -299,8 +301,8 @@ function toggleModalDisplay() {
         modal.style.display = 'grid';
         window.setTimeout( () => { modal.classList.add('modal-open') }, 25);
         textArea.value = userNotes[index].noteContent.text; // Sets text area to content of note
-        let countedWords = document.getElementById('wordcount');
-        countedWords.innerHTML = 'Words:' + ' ' + userNotes[index].noteContent.wordCount;
+        let countedItems = document.querySelector('#modal-footer label');
+        countedItems.innerHTML = userNotes[index].noteContent.wordCount;
     }
 }
 
@@ -331,9 +333,12 @@ function changeGrid(e) {
     const section = document.getElementById('usernotes-viewer');
     if (index === 0) {
         section.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 2fr))';
+        section.style.gridAutoRows = '150px';
     } else {
         section.style.gridTemplateColumns = '1fr';
+        section.style.gridAutoRows = '75px';
     }
+    showActiveSortDate(userPreferences.sortMethod);
 }
 
 
@@ -367,11 +372,16 @@ function refresh() {
     const section = document.getElementById('usernotes-viewer');
     section.innerHTML = '';
     userNotes.forEach(note => displayNotePreview(note));
-    showActiveSortDate(method);
+    showActiveSortDate(userPreferences.sortMethod);
 }
 
-function countWords(text) {
-    return text.match(/\w+/g).length;
+function countItems() {
+    let wordCount = document.querySelector('#modal-footer label');
+    if (userPreferences.countIndex === 0) {
+        wordCount.innerHTML = textArea.value.match(/\w+/g).length;
+    } else if (userPreferences.countIndex === 1) {
+        wordCount.innerHTML = textArea.value.length;
+    };
 }
 
 function buildThemeDropdownMenu() {
@@ -394,11 +404,12 @@ newNoteButton.addEventListener('click', toggleModalDisplay);
 // Close modal window
 closeModalButton.addEventListener('click', toggleModalDisplay);
 
-// Count and display number of words as user types
-textArea.addEventListener('input', () => {
-    let wordCount = document.getElementById('wordcount');
-    wordCount.innerHTML = 'Words:' + ' ' + countWords(textArea.value);
-});
+// Set method of counting, words or characters
+textCounter.addEventListener('change', (e) => userPreferences.countIndex = e.target.selectedIndex);
+textCounter.addEventListener('change', countItems);
+
+// Count and display number of words or characters
+textArea.addEventListener('input', countItems);
 
 // Save the note with every character stroke
 textArea.addEventListener('input', saveNote);
