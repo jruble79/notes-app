@@ -108,17 +108,15 @@ modal.classList.add('modal-closed');
 // If no preexisting notes, sets userNotes to empty array
 let userNotes = JSON.parse(localStorage.getItem('notes')) || [];
 
-// Sort notes by edited date on page load
-userNotes.sort((a, b) => new Date(a.noteContent.dateEdited) - new Date(b.noteContent.dateEdited));
-
 // Set initial color theme to Light
 buildThemeDropdownMenu();
 
 // Load any preexisting notes from local storage on page load
 userNotes.forEach(note => displayNotePreview(note));
 
-// Set grid display
-// gridControl.textContent = 'Display: Grid';
+// Sort notes by edited date on page load
+sortNotes();
+showActiveSortDate(userPreferences.sortMethod);
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -250,7 +248,6 @@ function sortNotes(method = userPreferences.sortMethod, order = userPreferences.
 
     localStorage.setItem('notes', JSON.stringify(userNotes));
     refresh();  
-    showActiveSortDate(method);
 
 }
 
@@ -370,6 +367,7 @@ function refresh() {
     const section = document.getElementById('usernotes-viewer');
     section.innerHTML = '';
     userNotes.forEach(note => displayNotePreview(note));
+    showActiveSortDate(method);
 }
 
 function countWords(text) {
@@ -377,7 +375,7 @@ function countWords(text) {
 }
 
 function buildThemeDropdownMenu() {
-    themeControl.innerHTML += `<select id="theme-list"></select>`;
+    themeControl.innerHTML += `<select name="theme-options" id="theme-list"></select>`;
     colorThemes.forEach(theme => themeControl.querySelector('select').innerHTML += `<option>${theme.themeName}</option>`);
 }
 
