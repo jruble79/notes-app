@@ -76,25 +76,6 @@ footer, #modal-footer {
     margin-top: 1.5rem;
 }
 
-/* ////////////////////////////////////////////////////////// */
-/* THEME DROPDOWN /////////////////////////////////////////// */
-/* ////////////////////////////////////////////////////////// */
-
-#theme-list {
-    position: absolute;
-    z-index: 1;
-}
-
-#theme-list li {
-    background-color: var(--main-background-color);
-    padding: .5rem;
-    width: 200%;
-    transition: background-color .25s;
-}
-
-#theme-list li:hover {
-    background-color: var(--main-note-highlight-color);
-}
 
 /* ////////////////////////////////////////////////////////// */
 /* MODAL STYLES ///////////////////////////////////////////// */
