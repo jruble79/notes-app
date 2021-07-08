@@ -195,6 +195,7 @@ function selectAndDeleteNotes() {
     let article = document.querySelectorAll('article');
     let notesToTrash = [];
 
+    article.forEach(article => article.classList.add('unselected'));
     // Remove existing event listeners on articles
     article.forEach(article => article.removeEventListener('click', articleActions));
     // Add listener to handle selecting notes
@@ -204,14 +205,20 @@ function selectAndDeleteNotes() {
     selectButton.addEventListener('click', deleteSelected);
 
     function makeSelected(e) {
-        e.target.classList.add('article-active');
-
-        let article = e.target;
+        this.classList.add('article-active');
+        let article = this;
         let thisNoteKey = article.querySelector('div').textContent;
         thisNoteKey = parseInt(thisNoteKey);
     
-        // Adds noteKey to notesToTrash array
-        notesToTrash.push(thisNoteKey);
+        // Checks if noteKey has already been selected and deselects and removes it from 
+        // the notesToTrash array. Otherwise adds noteKey to notesToTrash array
+        if (notesToTrash.includes(thisNoteKey)) {
+            index = notesToTrash.findIndex(note => note === thisNoteKey);
+            notesToTrash.splice(index, 1);
+            this.classList.remove('article-active');
+        } else {
+            notesToTrash.push(thisNoteKey);
+        }
 
         selectButton.textContent = 'Trash';
     }
