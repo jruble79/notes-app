@@ -22,6 +22,10 @@
     display: none;
 }
 
+.unselected {
+    transform: scale(.85);
+}
+
 /* ////////////////////////////////////////////////////////// */
 /* GLOBAL STYLES ///////////////////////////////////////////// */
 /* ////////////////////////////////////////////////////////// */
@@ -172,7 +176,7 @@ article:active {
 }
 
 .article-active {
-    transform: scale(1.05);
+    transform: scale(1);
     background-color: var(--main-note-highlight-color);
 }
 
