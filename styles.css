@@ -23,6 +23,7 @@
 }
 
 .unselected {
+    opacity: 1;
     transform: scale(.85);
 }
 
@@ -60,6 +61,11 @@ select {
     font-size: 1rem;
     background-color: var(--main-background-color);
     color: var(--main-text-color);
+}
+
+.opaque {
+    opacity: 1;
+    transform: scaleY(1);
 }
 
 /* ////////////////////////////////////////////////////////// */
@@ -148,7 +154,10 @@ article {
     background-color: var(--main-notes-color);
     overflow-y: hidden;
     transform: scale(1);
-    transition: transform .15s, background-color .15s;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: .25;
+    transition: transform .75s cubic-bezier(0.68, -0.55, 0.265, 1.25), background-color .15s, opacity .5s;
 }
 
 #usernotes-viewer {

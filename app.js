@@ -187,7 +187,10 @@ function displayNotePreview(note) {
     `;
 
     article.addEventListener('click', articleActions);
-    section.prepend(article);
+    section.append(article);
+
+    window.setTimeout( () => { article.classList.add('opaque') }, 50 );
+    // article.classList.add('opaque');
 
 }
 
@@ -195,6 +198,7 @@ function selectAndDeleteNotes() {
     let article = document.querySelectorAll('article');
     let notesToTrash = [];
 
+    article.forEach(article => article.classList.remove('opaque'));
     article.forEach(article => article.classList.add('unselected'));
     // Remove existing event listeners on articles
     article.forEach(article => article.removeEventListener('click', articleActions));
@@ -257,20 +261,6 @@ function sortNotes(method = userPreferences.sortMethod, order = userPreferences.
 
     localStorage.setItem('notes', JSON.stringify(userNotes));
     refresh();  
-
-}
-
-function showActiveSortDate(method) {
-    const created = document.querySelectorAll('.created');
-    const edited = document.querySelectorAll('.edited');
-
-    if (method === 'dateEdited') {
-        created.forEach(item => item.classList.add('hidden'));
-        edited.forEach(item => item.classList.remove('hidden'));
-    } else if (method === 'dateCreated') {
-        edited.forEach(item => item.classList.add('hidden'));
-        created.forEach(item => item.classList.remove('hidden'));
-    }
 
 }
 
@@ -345,7 +335,7 @@ function changeGrid(e) {
         section.style.gridTemplateColumns = '1fr';
         section.style.gridAutoRows = '75px';
     }
-    showActiveSortDate(userPreferences.sortMethod);
+    refresh();
 }
 
 
@@ -378,9 +368,30 @@ function getNote(key) {
 function refresh() {
     const section = document.getElementById('usernotes-viewer');
     section.innerHTML = '';
-    userNotes.forEach(note => displayNotePreview(note));
-    showActiveSortDate(userPreferences.sortMethod);
+
+    userNotes.forEach( (note, i) => {
+        setTimeout( () => {
+            displayNotePreview(note);
+            showActiveSortDate(userPreferences.sortMethod);        
+        }, i * 50 );
+    });
+
+
 }
+
+function showActiveSortDate(method) {
+    const created = document.querySelectorAll('.created');
+    const edited = document.querySelectorAll('.edited');
+
+    if (method === 'dateEdited') {
+        created.forEach(item => item.classList.add('hidden'));
+        edited.forEach(item => item.classList.remove('hidden'));
+    } else if (method === 'dateCreated') {
+        edited.forEach(item => item.classList.add('hidden'));
+        created.forEach(item => item.classList.remove('hidden'));
+    }
+}
+
 
 function countItems() {
     let wordCount = document.querySelector('#modal-footer label');
