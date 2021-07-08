@@ -220,7 +220,7 @@ function selectAndDeleteNotes() {
             notesToTrash.push(thisNoteKey);
         }
 
-        selectButton.textContent = 'Trash';
+        selectButton.textContent = 'Delete';
     }
 
     function deleteSelected() {
