@@ -189,6 +189,7 @@ function displayNotePreview(note) {
     article.addEventListener('click', articleActions);
     section.append(article);
 
+    // Adds CSS class to enable animation effect
     window.setTimeout( () => { article.classList.add('opaque') }, 50 );
     // article.classList.add('opaque');
 
@@ -254,9 +255,9 @@ function selectAndDeleteNotes() {
 function sortNotes(method = userPreferences.sortMethod, order = userPreferences.sortOrder) {
 
     if (order === 'down') {
-        userNotes.sort( (a, b) => new Date(a.noteContent[method]) - new Date(b.noteContent[method]) );
-    } else if (order === 'up') {
         userNotes.sort( (a, b) => new Date(b.noteContent[method]) - new Date(a.noteContent[method]) );
+    } else if (order === 'up') {
+        userNotes.sort( (a, b) => new Date(a.noteContent[method]) - new Date(b.noteContent[method]) );
     };
 
     localStorage.setItem('notes', JSON.stringify(userNotes));
@@ -293,7 +294,8 @@ function toggleModalDisplay() {
     if (modal.style.display == 'grid') {
         modal.classList.remove('modal-open');
         modal.style.display = 'none';
-        refresh();
+        sortNotes();
+        // refresh();
     } else {
         modal.style.display = 'grid';
         window.setTimeout( () => { modal.classList.add('modal-open') }, 25);
@@ -369,6 +371,7 @@ function refresh() {
     const section = document.getElementById('usernotes-viewer');
     section.innerHTML = '';
 
+    // Sets a delay between drawing each new note
     userNotes.forEach( (note, i) => {
         setTimeout( () => {
             displayNotePreview(note);
