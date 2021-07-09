@@ -5,6 +5,8 @@ const gridControl = document.getElementById('grid');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
 const selectButton = document.getElementById('select');
+const fileActionsButton = document.getElementById('file-options');
+const filePicker = document.getElementById('file-picker');
 const modal = document.getElementById('modal');
 const trash = document.getElementById('trash');
 const sortBy = document.getElementById('sort');
@@ -102,6 +104,9 @@ const colorThemes = [
 ///////////////////////////////////////////////////////////////////////////
 
 
+// Sets initial state of the file picker
+filePicker.style.display = 'none';
+
 // Sets initial state of modal display
 modal.style.display = 'none';
 modal.classList.add('modal-closed');
@@ -119,6 +124,65 @@ userNotes.forEach(note => displayNotePreview(note));
 // Sort notes by edited date on page load
 sortNotes();
 showActiveSortDate(userPreferences.sortMethod);
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// IMPORT / EXPORT LOCAL NOTES
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+function importOrExport(e) {
+    if (e.target.selectedIndex === 1) {
+        importFile();
+    } else if (e.target.selectedIndex === 2) { 
+        filePicker.style.display = 'none';
+        exportFile();
+    } else {
+        filePicker.style.display = 'none';
+        return;
+    }
+}
+
+function importFile() {
+    filePicker.style.display = 'block';
+    
+    document.querySelector("#read-button").addEventListener('click', function() {
+        if(document.querySelector("#file-input").files.length == 0) {
+            alert('Error : No file selected');
+            return;
+        }
+    
+        // file selected by user
+        let file = document.querySelector("#file-input").files[0];
+
+        // new FileReader object
+        let reader = new FileReader();
+
+        // event fired when file reading finished
+        reader.addEventListener('load', function(e) {
+            // contents of the file
+            let text = e.target.result;
+            text = JSON.parse(text);
+            userNotes = text;
+            localStorage.setItem('notes', JSON.stringify(userNotes));
+            refresh();
+        });
+
+        // event fired when file reading failed
+        reader.addEventListener('error', function() {
+            alert('Error : Failed to read file');
+        });
+
+        // read file as text file
+        reader.readAsText(file);
+
+    });
+}
+
+function exportFile() {
+    console.log('EXPORT!');
+}
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -420,6 +484,8 @@ function buildThemeDropdownMenu() {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
+// Read in local JSON file
+fileActionsButton.addEventListener('change', importOrExport);
 
 // Open modal window
 newNoteButton.addEventListener('click', createNewNote);
