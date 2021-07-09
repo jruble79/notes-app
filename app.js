@@ -16,7 +16,7 @@ let root = document.documentElement;
 let method;
 let order;
 
-// Set up basic user preferences
+// Stores basic user preferences
 let userPreferences = {
     sortMethod: 'dateEdited',
     sortOrder: 'down',
@@ -199,8 +199,11 @@ function selectAndDeleteNotes() {
     let article = document.querySelectorAll('article');
     let notesToTrash = [];
 
+    // Shrinks notes from the center of each note
     article.forEach(article => article.classList.remove('opaque'));
     article.forEach(article => article.classList.add('unselected'));
+    article.forEach(article => article.style.transformOrigin = 'center');
+
     // Remove existing event listeners on articles
     article.forEach(article => article.removeEventListener('click', articleActions));
     // Add listener to handle selecting notes
@@ -210,6 +213,7 @@ function selectAndDeleteNotes() {
     selectButton.addEventListener('click', deleteSelected);
 
     function makeSelected(e) {
+        // Increases size and deepens color of a selected note
         this.classList.add('article-active');
         let article = this;
         let thisNoteKey = article.querySelector('div').textContent;
@@ -237,7 +241,7 @@ function selectAndDeleteNotes() {
         getNote(noteKey);
         userNotes.splice(index, 1);
         localStorage.setItem('notes', JSON.stringify(userNotes));
-        selectButton.textContent = 'Select';
+        selectButton.textContent = 'Select and Delete';
         selectButton.removeEventListener('click', deleteSelected);
         selectButton.addEventListener('click', selectAndDeleteNotes);
     }
@@ -295,7 +299,6 @@ function toggleModalDisplay() {
         modal.classList.remove('modal-open');
         modal.style.display = 'none';
         sortNotes();
-        // refresh();
     } else {
         modal.style.display = 'grid';
         window.setTimeout( () => { modal.classList.add('modal-open') }, 25);
