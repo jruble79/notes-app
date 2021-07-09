@@ -63,6 +63,10 @@ select {
     color: var(--main-text-color);
 }
 
+select:focus-visible {
+    outline: none;
+}
+
 .opaque {
     opacity: 1;
     transform: scaleY(1);
