@@ -5,7 +5,7 @@ const gridControl = document.getElementById('grid');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
 const selectButton = document.getElementById('select');
-const fileActionsButton = document.getElementById('file-options');
+const fileActions = document.getElementById('file-options');
 const filePicker = document.getElementById('file-picker');
 const modal = document.getElementById('modal');
 const trash = document.getElementById('trash');
@@ -106,6 +106,7 @@ const colorThemes = [
 
 // Sets initial state of the file picker
 filePicker.style.display = 'none';
+fileActions[0].setAttribute('selected', false);
 
 // Sets initial state of modal display
 modal.style.display = 'none';
@@ -137,7 +138,7 @@ function importOrExport(e) {
         importFile();
     } else if (e.target.selectedIndex === 2) { 
         filePicker.style.display = 'none';
-        exportFile();
+        exportFile(userNotes);
     } else {
         filePicker.style.display = 'none';
         return;
@@ -180,8 +181,18 @@ function importFile() {
     });
 }
 
-function exportFile() {
-    console.log('EXPORT!');
+function exportFile(jsonData) {
+
+    let dataStr = JSON.stringify(jsonData);
+    let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+    let exportFileDefaultName = 'notes.json';
+
+    let linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+
 }
 
 
@@ -446,7 +457,6 @@ function refresh() {
         }, i * 50 );
     });
 
-
 }
 
 function showActiveSortDate(method) {
@@ -485,7 +495,7 @@ function buildThemeDropdownMenu() {
 ///////////////////////////////////////////////////////////////////////////
 
 // Read in local JSON file
-fileActionsButton.addEventListener('change', importOrExport);
+fileActions.addEventListener('change', importOrExport);
 
 // Open modal window
 newNoteButton.addEventListener('click', createNewNote);
