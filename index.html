@@ -24,8 +24,21 @@
                     <div id="theme-control" class="dropdown">
                         <label for="theme-options">Theme:</label>
                     </div>
-                    <li>Search</li>
+                    <div class="dropdown">
+                        <label for="file-options">Actions:</label>
+                        <select name="file-options" id="file-options">
+                            <option>Choose</option>
+                            <option>Import</option>
+                            <option>Export</option>
+                        </select>
+                        <div id="file-picker">
+                            <input type="file" id="file-input">
+                            <button id="read-button">Read File</button>
+                        </div>
+        
+                    </div>
                 </ul>
+
         </header>
         <section id="usernotes-viewer">
 
