@@ -7,6 +7,7 @@ const closeModalButton = document.querySelector('#modal-footer li');
 const selectButton = document.getElementById('select');
 const fileActions = document.getElementById('file-options');
 const filePicker = document.getElementById('file-picker');
+const importNotesButton = filePicker.querySelector('#read-button');
 const modal = document.getElementById('modal');
 const trash = document.getElementById('trash');
 const sortBy = document.getElementById('sort');
@@ -106,7 +107,6 @@ const colorThemes = [
 
 // Sets initial state of the file picker
 filePicker.style.display = 'none';
-fileActions[0].setAttribute('selected', false);
 
 // Sets initial state of modal display
 modal.style.display = 'none';
@@ -147,9 +147,15 @@ function importOrExport(e) {
 
 function importFile() {
     filePicker.style.display = 'block';
+
+    document.querySelector('#file-input').addEventListener('change', function() { 
+        importNotesButton.classList.add('opaque');
+        document.querySelector('#file-input').classList.add('transparent');
+    });
     
-    document.querySelector("#read-button").addEventListener('click', function() {
-        if(document.querySelector("#file-input").files.length == 0) {
+    importNotesButton.addEventListener('click', function() {
+
+        if (document.querySelector("#file-input").files.length == 0) {
             alert('Error : No file selected');
             return;
         }
