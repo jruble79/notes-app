@@ -18,6 +18,8 @@ let thisNoteKey;
 let root = document.documentElement;
 let method;
 let order;
+let notesToTrash = [];
+
 
 // Stores basic user preferences
 let userPreferences = {
@@ -277,54 +279,93 @@ function displayNotePreview(note) {
 }
 
 function selectAndDeleteNotes() {
-    let article = document.querySelectorAll('article');
-    let notesToTrash = [];
+    let articleList = document.querySelectorAll('article');
+    // let notesToTrash = [];
 
     // Shrinks notes from the center of each note
-    article.forEach(article => article.classList.remove('opaque'));
-    article.forEach(article => article.classList.add('unselected'));
-    article.forEach(article => article.style.transformOrigin = 'center');
+    articleList.forEach(article => article.classList.remove('opaque'));
+    articleList.forEach(article => article.classList.add('unselected'));
+    articleList.forEach(article => article.style.transformOrigin = 'center');
+
+    // Disables select menus
+    // let select = document.querySelectorAll('select');
+    // select.forEach(menu => menu.setAttribute('disabled', true));
 
     // Remove existing event listeners on articles
-    article.forEach(article => article.removeEventListener('click', articleActions));
+    articleList.forEach(article => article.removeEventListener('click', articleActions));
     // Add listener to handle selecting notes
-    article.forEach(article => article.addEventListener('click', makeSelected));
+    articleList.forEach(article => article.addEventListener('click', makeSelected));
     // Listener to delete selected notes
     selectButton.removeEventListener('click', selectAndDeleteNotes);
     selectButton.addEventListener('click', deleteSelected);
 
-    function makeSelected(e) {
-        // Increases size and deepens color of a selected note
-        this.classList.add('article-active');
-        let article = this;
-        let thisNoteKey = article.querySelector('div').textContent;
-        thisNoteKey = parseInt(thisNoteKey);
-    
-        // Checks if noteKey has already been selected and deselects and removes it from 
-        // the notesToTrash array. Otherwise adds noteKey to notesToTrash array
-        if (notesToTrash.includes(thisNoteKey)) {
-            index = notesToTrash.findIndex(note => note === thisNoteKey);
-            notesToTrash.splice(index, 1);
-            this.classList.remove('article-active');
+    window.setTimeout( () => { window.addEventListener('click', escapeSelectAndDelete) }, 500 )
+    // window.addEventListener('click', escapeSelectAndDelete);
+
+
+}
+
+function makeSelected(e) {
+    // Increases size and deepens color of a selected note
+    this.classList.add('article-active');
+    let article = this;
+    let thisNoteKey = article.querySelector('div').textContent;
+    thisNoteKey = parseInt(thisNoteKey);
+
+    // Checks if noteKey has already been selected and deselects and removes it from 
+    // the notesToTrash array. Otherwise adds noteKey to notesToTrash array
+    if (notesToTrash.includes(thisNoteKey)) {
+        index = notesToTrash.findIndex(note => note === thisNoteKey);
+        notesToTrash.splice(index, 1);
+        this.classList.remove('article-active');
+    } else {
+        notesToTrash.push(thisNoteKey);
+    }
+    console.log(notesToTrash);
+    selectButton.textContent = 'Delete';
+}
+
+
+function deleteSelected() {
+    notesToTrash.forEach(noteKey => indexAndRemove(noteKey));
+    selectButton.textContent = 'Select and Delete';
+    refresh();
+}
+
+function indexAndRemove(noteKey) {
+    getNote(noteKey);
+    userNotes.splice(index, 1);
+    localStorage.setItem('notes', JSON.stringify(userNotes));
+    selectButton.textContent = 'Select and Delete';
+    selectButton.removeEventListener('click', deleteSelected);
+    selectButton.addEventListener('click', selectAndDeleteNotes);
+    notesToTrash = [];
+}
+
+function escapeSelectAndDelete(e) {
+
+    let articleList = document.querySelectorAll('article');
+    articleList = Array.from(articleList);
+    containsArticlePath = articleList.some(article => e.path.includes(article));
+    containsSelectButton = e.path.includes(selectButton);
+    hasArticle();
+
+    function hasArticle() {
+        if (containsArticlePath == true) { 
+            selectAndDeleteNotes();
+        } else if (containsSelectButton == true) {
+            deleteSelected;
         } else {
-            notesToTrash.push(thisNoteKey);
+            console.log('leave the function');
+            selectButton.textContent = 'Select and Delete';
+            selectButton.removeEventListener('click', deleteSelected);
+            window.removeEventListener('click', escapeSelectAndDelete);
+            selectButton.addEventListener('click', selectAndDeleteNotes);
+            articleList.forEach(article => article.classList.remove('unselected'));
+            articleList.forEach(article => article.classList.remove('article-active'));
+            articleList.forEach(article => article.classList.add('opaque'));
+            return;
         }
-
-        selectButton.textContent = 'Delete';
-    }
-
-    function deleteSelected() {
-        notesToTrash.forEach(noteKey => indexAndRemove(noteKey));
-        refresh();
-    }
-
-    function indexAndRemove(noteKey) {
-        getNote(noteKey);
-        userNotes.splice(index, 1);
-        localStorage.setItem('notes', JSON.stringify(userNotes));
-        selectButton.textContent = 'Select and Delete';
-        selectButton.removeEventListener('click', deleteSelected);
-        selectButton.addEventListener('click', selectAndDeleteNotes);
     }
 }
 
