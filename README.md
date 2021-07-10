@@ -3,6 +3,7 @@ For Code Louisville's 2021 JavaScript course
 ***
 ## Project Description
 This is a single-page, browser-based notes app utilizing vanilla JavaScript. It currently stores data to the user's local storage.
+Tested for Google Chrome.
 ***
 ### Feature Requirements
 1. Read and parse an external file into your application and display some data from that in your app.
