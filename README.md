@@ -6,10 +6,9 @@ This is a single-page, browser-based notes app utilizing vanilla JavaScript. It 
 ***
 ### Feature Requirements
 1. Read and parse an external file into your application and display some data from that in your app.
-    - Within the Actions menu, users can choose to import or export notes created through this app from their local environment.
+    - Within the Actions menu, users can choose to import notes created through this app from their local environment.
 2. Create a form and save the values to an external file.
-    - When a user selects "New Note" an object containing initial values gets converted to JSON and stored to Local Storage.
-    - These values get updated and saved with every new keystroke added to the note.
+    - From the Actions menu, users can export notes created through this app to their local environment.
 3. Create an array, dictionary or list, populate it with multiple values, retrieve at least one value, and use or display it in your application.
     - Color properties are stored as objects within an array inside theme objects.
     - On page load, a function called buildThemeDropdownMenu loops through the colorThemes array and dynamically builds the dropdown menu. 
