@@ -175,6 +175,8 @@ function importFile() {
             text = JSON.parse(text);
             userNotes = text;
             localStorage.setItem('notes', JSON.stringify(userNotes));
+            filePicker.style.display = 'none';
+            fileActions[0].setAttribute('selected', true);
             refresh();
         });
 
@@ -200,6 +202,7 @@ function exportFile(jsonData) {
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
+    fileActions[0].setAttribute('selected', true);
 
 }
 
