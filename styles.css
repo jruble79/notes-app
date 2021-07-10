@@ -67,6 +67,12 @@ body {
     margin: 0;
 }
 
+ul {
+    margin: 0;
+    padding-inline-start: 0;
+    list-style-type: none;
+}
+
 article,
 button,
 li,
@@ -105,13 +111,10 @@ select:focus-visible {
 /* HEADER / FOOTER STYLES /////////////////////////////////// */
 /* ////////////////////////////////////////////////////////// */
 
-header ul, 
+#select-container, 
 footer ul,
 #modal-header ul,
 #modal-footer ul {
-    margin: 0;
-    padding-inline-start: 0;
-    list-style-type: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -123,10 +126,20 @@ header, #modal-header {
 
 header li:first-of-type {
     font-weight: 700;
+    margin-bottom: 1rem;
 }
 
 #file-picker {
-    margin-top: .5rem;
+    margin-top: 1rem;
+}
+
+#file-input {
+    margin-bottom: 1rem;
+}
+
+#file-input, 
+#read-button {
+    display: block;
 }
 
 footer, #modal-footer {
@@ -244,7 +257,7 @@ article:active {
         grid-row-end: -1;
     }
 
-    header ul, 
+    #select-container, 
     footer ul {
         flex-direction: column;
     }
@@ -254,10 +267,17 @@ article:active {
         grid-column-end: 2;
     }
 
-    header ul > *, footer ul > * {
+    header li, 
+    .dropdown, 
+    #file-picker, 
+    footer ul > * {
         margin: 1rem 0;
         padding-bottom: 1rem;
         border-bottom: 1px solid var(--main-notes-color);
+    }
+
+    #read-button {
+        margin-bottom: 1rem;
     }
 
     header, #modal-header {
