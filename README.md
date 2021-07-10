@@ -25,3 +25,5 @@ This is a single-page, browser-based notes app utilizing vanilla JavaScript. It 
         - Display the date type back to the user
 6. Analyze text and display information about it.
     - As a user types a note, the function countItems displays either the current word or character count.
+7. Application must have a responsive design.
+    - The project is built mobile-first and scales to a tablet/desktop configuration at 700px.
