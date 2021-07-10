@@ -14,28 +14,29 @@
         <header>
                 <ul>
                     <li>New Note</li>
-                    <div class="dropdown">
-                        <label for="grid-list">Display:</label>
-                        <select name="grid-list" id="grid"> 
-                            <option>Grid</option>
-                            <option>List</option>
-                        </select>
-                    </div>
-                    <div id="theme-control" class="dropdown">
-                        <label for="theme-options">Theme:</label>
-                    </div>
-                    <div class="dropdown">
-                        <label for="file-options">Actions:</label>
-                        <select name="file-options" id="file-options">
-                            <option>Choose</option>
-                            <option>Import</option>
-                            <option>Export</option>
-                        </select>
-                        <div id="file-picker">
-                            <input type="file" accept=".json" id="file-input">
-                            <button id="read-button">Import Notes</button>
+                    <div id="select-container">
+                        <div class="dropdown">
+                            <label for="grid-list">Display:</label>
+                            <select name="grid-list" id="grid"> 
+                                <option>Grid</option>
+                                <option>List</option>
+                            </select>
                         </div>
-        
+                        <div id="theme-control" class="dropdown">
+                            <label for="theme-options">Theme:</label>
+                        </div>
+                        <div class="dropdown">
+                            <label for="file-options">Actions:</label>
+                            <select name="file-options" id="file-options">
+                                <option>Choose</option>
+                                <option>Import</option>
+                                <option>Export</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="file-picker">
+                        <input type="file" accept=".json" id="file-input">
+                        <button id="read-button">Import Notes</button>
                     </div>
                 </ul>
 
