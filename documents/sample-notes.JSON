@@ -1,0 +1,172 @@
+[
+  {
+    "noteKey":1619870732636,
+    "noteContent":
+    {
+      "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "dateCreated":"2021-05-01T12:05:32.636Z",
+      "dateEdited":"2021-05-01T14:05:19.490Z",
+      "wordCount":8
+    }
+  },
+  {
+    "noteKey":1619987955416,
+    "noteContent":
+    {
+      "text":"Ut ultrices id justo non viverra. Nulla cursus, turpis id rutrum interdum, enim metus maximus purus, eget placerat sem dui ut ligula. Donec auctor libero vel velit feugiat finibus.",
+      "dateCreated":"2021-05-02T20:39:15.416Z",
+      "dateEdited":"2021-05-03T09:42:21.001Z",
+      "wordCount":29
+    }
+  },
+  {
+    "noteKey":1620041871923,
+    "noteContent":
+    {
+      "text":"Suspendisse condimentum sem sed suscipit tincidunt. In lobortis nunc ac libero suscipit elementum. Morbi et lorem id leo posuere tempus. Etiam volutpat, magna vitae varius faucibus, lacus tellus facilisis nisi, et fringilla nulla justo at enim.",
+      "dateCreated":"2021-05-03T11:37:51.923Z",
+      "dateEdited":"2021-06-06T20:38:04.140Z",
+      "wordCount":36
+    }
+  },
+  {
+    "noteKey":1622043263239,
+    "noteContent":
+    {
+      "text":"Sed tellus metus, sagittis id mollis vel, facilisis nec velit. Nunc felis sapien, posuere ac est ut, vulputate vehicula nibh.",
+      "dateCreated":"2021-05-26T15:34:23.239Z",
+      "dateEdited":"2021-05-30T10:05:19.490Z",
+      "wordCount":20
+    }
+  },
+  {
+    "noteKey":1622666355416,
+    "noteContent":
+    {
+      "text":"Quisque vulputate turpis eu lacus hendrerit cursus. Nunc mollis mauris vel auctor condimentum. Proin bibendum mauris eget eros pulvinar feugiat sed a elit.",
+      "dateCreated":"2021-06-02T20:39:15.416Z",
+      "dateEdited":"2021-06-15T13:13:11.021Z",
+      "wordCount":23
+    }
+  },
+  {
+    "noteKey":1623184671923,
+    "noteContent":
+    {
+      "text":"Cras bibendum turpis non egestas dapibus. Integer tempor tortor justo, vel interdum est porttitor pulvinar.",
+      "dateCreated":"2021-06-08T20:37:51.923Z",
+      "dateEdited":"2021-07-01T12:22:04.140Z",
+      "wordCount":15
+    }
+  },
+  {
+    "noteKey":1623740700964,
+    "noteContent":
+    {
+      "text":"Duis pharetra ullamcorper viverra. Vivamus sodales sem et malesuada tempor.",
+      "dateCreated":"2021-06-15T07:05:00.964Z",
+      "dateEdited":"2021-07-09T14:05:19.490Z",
+      "wordCount":10
+    }
+  },
+  {
+    "noteKey":1624464836886,
+    "noteContent":
+    {
+      "text":"In bibendum tempor massa, a dapibus eros bibendum sit amet.",
+      "dateCreated":"2021-06-23T16:13:56.886Z",
+      "dateEdited":"2021-06-23T17:12:12.024Z",
+      "wordCount":10
+    }
+  },
+  {
+    "noteKey":1625132271923,
+    "noteContent":
+    {
+      "text":"Nullam cursus elit sed sapien posuere dictum. In efficitur mattis dui. Phasellus mattis, quam sit amet ultrices pretium, justo diam fringilla ex, in feugiat mauris est eget nibh. Donec hendrerit est non turpis lobortis egestas.",
+      "dateCreated":"2021-07-01T09:37:51.923Z",
+      "dateEdited":"2021-07-02T09:38:04.140Z",
+      "wordCount":35
+    }
+  },
+  {
+    "noteKey":1625336631029,
+    "noteContent":
+    {
+      "text":"Donec varius eu dui sit amet semper. Duis varius augue augue, a cursus orci aliquam non. In ac magna ultrices, interdum sapien eget, gravida libero. Fusce id ipsum sed ante vestibulum vestibulum.",
+      "dateCreated":"2021-07-03T18:23:51.029Z",
+      "dateEdited":"2021-07-04T12:34:56.001Z",
+      "wordCount":32
+    }
+  },
+  {
+    "noteKey":1625321100636,
+    "noteContent":
+    {
+      "text":"Aliquam tristique, lectus id commodo convallis, dolor velit faucibus leo, vitae facilisis risus enim a magna. Donec id tortor nulla.",
+      "dateCreated":"2021-07-03T14:05:00.636Z",
+      "dateEdited":"2021-07-09T10:04:19.821Z",
+      "wordCount":20
+    }
+  },
+  {
+    "noteKey":1625599221129,
+    "noteContent":
+    {
+      "text":"Pellentesque orci ante, mattis ut dui sed, sagittis hendrerit neque. Pellentesque sollicitudin, ligula luctus placerat laoreet, libero dolor suscipit urna, ac scelerisque nisl dui ac ipsum.",
+      "dateCreated":"2021-07-06T19:20:21.129Z",
+      "dateEdited":"2021-07-06T01:39:29.217",
+      "wordCount":26
+    }
+  },
+  {
+    "noteKey":1625678631923,
+    "noteContent":
+    {
+      "text":"Maecenas lobortis sapien lectus, id volutpat ante egestas non. Vestibulum in fringilla nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In dignissim elit a finibus dignissim. Sed et eros purus.",
+      "dateCreated":"2021-07-07T17:23:51.923Z",
+      "dateEdited":"2021-07-08T20:38:04.140Z",
+      "wordCount":36
+    }
+  },
+  {
+    "noteKey":1625724300636,
+    "noteContent":
+    {
+      "text":"Etiam consequat dui non tincidunt ullamcorper. In hac habitasse platea dictumst. Ut et congue dui. Phasellus nulla risus, consectetur sit amet rutrum a, eleifend nec est. Nullam cursus iaculis fringilla.",
+      "dateCreated":"2021-07-08T06:05:00.636Z",
+      "dateEdited":"2021-07-09T14:05:19.490Z",
+      "wordCount":30
+    }
+  },
+  {
+    "noteKey":1625833991006,
+    "noteContent":
+    {
+      "text":"Phasellus et eros non sem dignissim efficitur. Nam gravida nisi in nibh elementum, lacinia blandit risus iaculis.",
+      "dateCreated":"2021-07-09T12:33:11.006Z",
+      "dateEdited":"2021-07-09T13:39:29.624Z",
+      "wordCount":17
+    }
+  },
+  {
+    "noteKey":1625872980121,
+    "noteContent":
+    {
+      "text":"Nulla sed sem ante. Sed fringilla, metus at condimentum finibus, turpis ligula volutpat nisl, et ornare ante justo vel mi.",
+      "dateCreated":"2021-07-09T23:23:00.121Z",
+      "dateEdited":"2021-07-10T12:05:19.490Z",
+      "wordCount":20
+    }
+  },
+  {
+    "noteKey":1626035955416,
+    "noteContent":
+    {
+      "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas efficitur rutrum ex, nec dapibus ante posuere vitae. Suspendisse ornare mi ac leo lacinia laoreet.",
+      "dateCreated":"2021-07-11T20:39:15.416Z",
+      "dateEdited":"2021-07-13T20:12:33.256Z",
+      "wordCount":24
+    }
+  }
+]
