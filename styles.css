@@ -221,7 +221,9 @@ article {
 .content-preview {
     margin: 0;
     overflow-y: hidden;
+    line-height: 1.25rem;
     width: 100%;
+    height: calc(100% - 2rem);
 }
 
 .dates p {
