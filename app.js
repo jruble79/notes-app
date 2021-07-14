@@ -177,7 +177,7 @@ function importFile() {
             localStorage.setItem('notes', JSON.stringify(userNotes));
             filePicker.style.display = 'none';
             fileActions[0].setAttribute('selected', true);
-            refresh();
+            sortNotes();
         });
 
         // event fired when file reading failed
