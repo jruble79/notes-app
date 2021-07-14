@@ -324,7 +324,6 @@ function makeSelected(e) {
     } else {
         notesToTrash.push(thisNoteKey);
     }
-    console.log(notesToTrash);
     selectButton.textContent = 'Delete';
 }
 
@@ -359,7 +358,6 @@ function escapeSelectAndDelete(e) {
         } else if (containsSelectButton == true) {
             deleteSelected;
         } else {
-            console.log('leave the function');
             selectButton.textContent = 'Select and Delete';
             selectButton.removeEventListener('click', deleteSelected);
             window.removeEventListener('click', escapeSelectAndDelete);
@@ -463,7 +461,7 @@ function changeGrid(e) {
         section.style.gridAutoRows = '150px';
     } else {
         section.style.gridTemplateColumns = '1fr';
-        section.style.gridAutoRows = '75px';
+        section.style.gridAutoRows = '80px';
     }
     refresh();
 }
