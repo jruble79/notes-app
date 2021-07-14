@@ -31,71 +31,25 @@ let userPreferences = {
 
 const colorThemes = [
 
-    // New colorThemes objects must follow the following structure to be read by setTheme(): 
-    //
-    //      Object with two key-value pairs: 
-    //          A key of 'themeName' and value of the name of the theme
-    //          A key of 'properties' and a value initiating a new Array
-    //              Inside the new Array are objects describing theme properties and values
-    //                  A key of 'propertyName' and value of a CSS variable name
-    //                  A key of 'propertyValue' and a value of the CSS variable's desired color value
-    //
-    //      Current propertyName values are:
-    //          --main-text-color
-    //          --main-background-color
-    //          --main-notes-color
-    //          --main-box-shadow-color
-    //          --main-note-highlight-color
-
         { 
             themeName: 'Light',
-            properties: new Array (
-                { 
-                    propertyName: '--main-text-color',
-                    propertyValue: 'rgb(0, 0, 0)' 
-                },
-                {
-                    propertyName: '--main-background-color',
-                    propertyValue: 'rgb(255, 255, 255)'
-                },
-                {
-                    propertyName: '--main-notes-color',
-                    propertyValue: 'rgb(255, 232, 132)'
-                },
-                {
-                    propertyName: '--main-box-shadow-color',
-                    propertyValue: 'rgb(211, 211, 211)'
-                },
-                {
-                    propertyName: '--main-note-highlight-color',
-                    propertyValue: 'rgb(255, 226, 95)'
-                }
-            )
+            properties: {
+                '--main-text-color': 'rgb(0, 0, 0)',
+                '--main-background-color': 'rgb(255, 255, 255)',
+                '--main-notes-color': 'rgb(255, 232, 132)',
+                '--main-box-shadow-color': 'rgb(211, 211, 211)',
+                '--main-note-highlight-color': 'rgb(255, 226, 95)'
+            },
         },
         { 
             themeName: 'Dark',
-            properties: new Array (
-                { 
-                    propertyName: '--main-text-color',
-                    propertyValue: 'rgb(255, 255, 255)'
-                },
-                {
-                    propertyName: '--main-background-color',
-                    propertyValue: 'rgb(0, 0, 0)'
-                },
-                {
-                    propertyName: '--main-notes-color',
-                    propertyValue: 'rgb(75, 75, 75)'
-                },
-                {
-                    propertyName: '--main-box-shadow-color',
-                    propertyValue: 'rgb(75, 75, 75)'
-                },
-                {
-                    propertyName: '--main-note-highlight-color',
-                    propertyValue: 'rgb(100, 100, 100)'
-                }
-            )
+            properties: {
+                '--main-text-color': 'rgb(255, 255, 255)',
+                '--main-background-color': 'rgb(0, 0, 0)',
+                '--main-notes-color': 'rgb(75, 75, 75)',
+                '--main-box-shadow-color': 'rgb(75, 75, 75)',
+                '--main-note-highlight-color': 'rgb(100, 100, 100)'
+            }
         }
 ];
 
@@ -433,24 +387,11 @@ function toggleModalDisplay() {
 
 function setTheme(e) {
 
-    // Requires any new colorThemes objects to follow a nested structure as follows: 
-    //
-    //      Object with two key-value pairs: 
-    //          A key of 'themeName' and value of the name of the theme
-    //          A key of 'properties' and a value initiating a new Array
-    //              Inside the new Array are objects describing theme properties and values
-    //                  A key of 'propertyName' and value of a CSS variable name
-    //                  A key of 'propertyValue' and a value of the CSS variable's desired color value
-    //
-    //      Current propertyName values are:
-    //          --main-text-color
-    //          --main-background-color
-    //          --main-notes-color
-    //          --main-box-shadow-color
-    //          --main-note-highlight-color
-
     const index = e.target.selectedIndex;
-    colorThemes[index].properties.forEach(property => root.style.setProperty(property.propertyName, property.propertyValue));
+    // colorThemes[index].properties.forEach(property => root.style.setProperty(property.propertyName, property.propertyValue));
+    const selectedTheme = colorThemes[index].properties;
+    for ( const prop in selectedTheme) { root.style.setProperty( `${prop}`, `${selectedTheme[prop]}` ) }
+
 }
 
 function changeGrid(e) {
