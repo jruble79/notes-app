@@ -3,18 +3,17 @@
 /* ////////////////////////////////////////////////////////// */
 
 :root {
-    font-family: 'Roboto', sans-serif;
-    font-size: 9pt;
-    box-sizing: border-box;
     --main-text-color: rgb(0, 0, 0);
     --main-background-color: rgb(255, 255, 255);
     --main-notes-color: rgb(255, 232, 132);
     --main-box-shadow-color: rgb(211, 211, 211);
     --main-note-highlight-color: rgb(255, 226, 95);
+    font-family: 'Roboto', sans-serif;
+    font-size: 9pt;
+    box-sizing: border-box;
 }
 html {
     height: 100vh;
-    transition: color .15s, background-color .5s;
 }
 div {
     display: unset;
@@ -95,6 +94,7 @@ button:disabled {
 }
 .color-text {
     color: var(--main-text-color);
+    transition: all 1s;
 }
 .color-notes {
     background-color: var(--main-notes-color);
@@ -105,6 +105,7 @@ button:disabled {
 /* ////////////////////////////////////////////////////////// */
 
 body {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: max-content 1fr max-content;
@@ -170,12 +171,10 @@ article::before {
 .article-unselected {
     transform: scale(.85);
 }
-.article-active {
-    transform: scale(.9);
+.article-selected {
+    transform: scale(.95);
     background-color: var(--main-note-highlight-color);
-    animation-name: wiggle;
-    animation-duration: .25s;
-    animation-iteration-count: infinite;
+    animation: .25s wiggle infinite;
 }
 @keyframes wiggle {
     0% { transform: rotate(-.5deg); }
@@ -194,7 +193,7 @@ article::before {
 
 .modal-closed {
     position: absolute;
-    top: 1rem;
+    top: 3rem;
     left: 1rem;
     width: 0;
     height: 0;
@@ -206,7 +205,7 @@ article::before {
 }
 .modal-open {
     width: calc(100% - 5rem) ;
-    height: calc(100% - 5rem) ;
+    height: calc(100% - 9rem) ;
     opacity: 1 ;
 }
 textarea {

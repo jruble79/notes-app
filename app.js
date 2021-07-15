@@ -260,25 +260,22 @@ function selectAndDeleteNotes() {
     selectButton.addEventListener('click', deleteSelected);
 
     window.setTimeout( () => { window.addEventListener('click', escapeSelectAndDelete) }, 500 )
-    // window.addEventListener('click', escapeSelectAndDelete);
-
-
 }
 
 function makeSelected(e) {
     // Increases size and deepens color of a selected note
-    this.classList.remove('article-unselected');
-    this.classList.add('article-active');
+    // this.classList.remove('article-unselected');
+    console.log(this);
+    this.classList.add('article-selected');
     let article = this;
     let thisNoteKey = article.querySelector('div').textContent;
     thisNoteKey = parseInt(thisNoteKey);
-
     // Checks if noteKey has already been selected and deselects and removes it from 
     // the notesToTrash array. Otherwise adds noteKey to notesToTrash array
     if (notesToTrash.includes(thisNoteKey)) {
         index = notesToTrash.findIndex(note => note === thisNoteKey);
         notesToTrash.splice(index, 1);
-        this.classList.remove('article-active');
+        this.classList.remove('article-selected');
     } else {
         notesToTrash.push(thisNoteKey);
     }
@@ -321,7 +318,7 @@ function escapeSelectAndDelete(e) {
             window.removeEventListener('click', escapeSelectAndDelete);
             selectButton.addEventListener('click', selectAndDeleteNotes);
             articleList.forEach(article => article.classList.remove('article-unselected'));
-            articleList.forEach(article => article.classList.remove('article-active'));
+            articleList.forEach(article => article.classList.remove('article-selected'));
             articleList.forEach(article => article.classList.add('article-unroll'));
             return;
         }
