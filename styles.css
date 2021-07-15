@@ -45,6 +45,9 @@ input[type=file]::file-selector-button {
 select:focus-visible {
     outline: none;
 }
+select {
+    font-family: 'Roboto', sans-serif;
+}
 #new-note {
     font-size: 1.25rem;
     font-weight: 700;
@@ -111,13 +114,23 @@ body {
 article {
     padding: 1rem;
     border-radius: .5rem;
-    border-bottom: 5px solid var(--main-note-highlight-color);
-    overflow-y: hidden;
     transform: scale(1);
     transform: scaleY(0);
     transform-origin: top;
     transition: transform .5s cubic-bezier(0.68, -0.55, 0.265, 1.25), 
                 background-color .15s, opacity .5s;
+}
+article::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: .5rem;
+    background: 
+        linear-gradient(transparent 20%, var(--main-notes-color) 65%),
+        linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.25), transparent);
 }
 .article-unroll {
     transform: scaleY(1);
@@ -139,6 +152,8 @@ article {
 }
 .content-preview {
     width: 100%;
+    height: calc(100% - 1rem);
+    overflow-y: hidden;
 }
 
 /* ////////////////////////////////////////////////////////// */
@@ -181,7 +196,7 @@ textarea {
     display: none;
 }
 .semi-transparent {
-    opacity: .25;
+    opacity: .35;
 }
 .inline { /* Changes display type with media query */
     display: inline-block;
