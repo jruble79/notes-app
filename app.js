@@ -102,11 +102,12 @@ function importOrExport(e) {
 }
 
 function importFile() {
-    filePicker.style.display = 'block';
+    filePicker.style.display = 'flex';
+    filePicker.style.flexDirection = 'column';
+    importNotesButton.setAttribute('disabled', true);
 
     document.querySelector('#file-input').addEventListener('change', function() { 
-        importNotesButton.classList.add('article-unroll');
-        document.querySelector('#file-input').classList.add('transparent');
+        importNotesButton.removeAttribute('disabled', true);
     });
     
     importNotesButton.addEventListener('click', function() {
