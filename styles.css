@@ -193,20 +193,21 @@ article::before {
 
 .modal-closed {
     position: absolute;
-    top: 3rem;
-    left: 1rem;
-    width: 0;
-    height: 0;
     padding: 1.5rem;
     background-color: var(--main-background-color);
     box-shadow: 0 0 2rem var(--main-box-shadow-color);
     opacity: 0;
-    transition: width .5s, height .5s, opacity .5s;
+    transform: scaleY(0);
+    transition: transform .75s cubic-bezier(0.68, -0.55, 0.265, 1.25),
+                opacity .75s;
 }
 .modal-open {
-    width: calc(100% - 5rem) ;
-    height: calc(100% - 9rem) ;
-    opacity: 1 ;
+    top: 2rem;
+    left: 2rem;
+    height: calc(100% - 7rem);
+    width: calc(100% - 7rem) ;
+    transform: scaleY(1);
+    opacity: 1;
 }
 textarea {
     border: 0;
