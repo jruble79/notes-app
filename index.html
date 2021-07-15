@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="color-background">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,37 +10,36 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
     </head>
 
-    <body>
+    <body class="color-background color-text">
         <header>
-                <ul>
-                    <li>New Note</li>
-                    <div id="select-container">
-                        <div class="dropdown">
-                            <label for="grid-list">Display:</label>
-                            <select name="grid-list" id="grid"> 
-                                <option>Grid</option>
-                                <option>List</option>
-                            </select>
-                        </div>
-                        <div id="theme-control" class="dropdown">
-                            <label for="theme-options">Theme:</label>
-                            <!-- Theme options are built from app.js on page load -->
-                        </div>
-                        <div class="dropdown">
-                            <label for="file-options">Actions:</label>
-                            <select name="file-options" id="file-options">
-                                <option>Choose</option>
-                                <option>Import</option>
-                                <option>Export</option>
-                            </select>
-                        </div>
+            <ul>
+                <li id="new-note">New Note</li>
+                <div class="flex-flex">
+                    <div class="dropdown">
+                        <label for="grid-list">Display:</label>
+                        <select name="grid-list" id="grid" class="color-background color-text"> 
+                            <option>Grid</option>
+                            <option>List</option>
+                        </select>
                     </div>
-                    <div id="file-picker">
-                        <input type="file" accept=".json" id="file-input">
-                        <button id="read-button">Import Notes</button>
+                    <div id="theme-control" class="dropdown">
+                        <label for="theme-options">Theme:</label>
+                        <!-- Theme options are built from app.js on page load -->
                     </div>
-                </ul>
-
+                    <div class="dropdown">
+                        <label for="file-options">Actions:</label>
+                        <select name="file-options" id="file-options" class="color-background color-text">
+                            <option>Choose</option>
+                            <option>Import</option>
+                            <option>Export</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="file-picker" class="flex-flex">
+                    <input type="file" accept=".json" id="file-input">
+                    <button id="read-button">Import Notes</button>
+                </div>
+            </ul>
         </header>
         <section id="usernotes-viewer">
             <!-- Tiled preview of notes will be populated here -->
@@ -48,13 +47,13 @@
         <section id="modal">
             <div id="modal-header">
             </div>
-            <textarea placeholder="Write your note here"></textarea>
+            <textarea placeholder="Write your note here" class="color-background color-text"></textarea>
             <div id="modal-footer">
-                <ul>
+                <ul class="flex-row">
                     <li>Close</li>
                     <div>
                         <label for="text-count"></label>
-                        <select name="text-count" id="text-count">Word Count: 0
+                        <select name="text-count" id="text-count" class="color-background color-text">Word Count: 0
                             <option>Words</option>
                             <option>Characters</option>
                         </select>
@@ -64,26 +63,27 @@
             </div>
         </section>
         <footer>
-            <ul>
-                <li id="sort"  class="dropdown">
-                    <label for="sort-options">Sort by:</label>
-                    <div class="column">
-                        <select name="sort-options" id="method">
-                            <option data-method = "dateEdited">Edited</option>
+            <ul class="flex-flex">
+                <li id="sort">
+                    <div class="flex-row inline">
+                        <label for="sort-options">Sort by:</label>
+                        <select name="sort-options" id="method" class="color-background color-text">
+                            <option data-method = "dateEdited">Edit Date</option>
                             <option data-method = "dateCreated">Created</option>
                         </select>
-                        <select id="order">
-                            <option data-order = "down">Descending</option>
-                            <option data-order = "up">Ascending</option>
-                        </select>
+                    </div>
+                    <div class="flex-row inline">
+                        <div></div>
+                            <select id="order" class="color-background color-text">
+                                <option data-order = "down">Descending</option>
+                                <option data-order = "up">Ascending</option>
+                            </select>
                     </div>
                 </li>
                 <li id="select">Select and Delete</li>
             </ul>
         </footer>
-
         <script src="app.js"></script>
-
     </body>
 
 </html>

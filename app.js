@@ -1,6 +1,6 @@
 
 
-const newNoteButton = document.querySelector('header ul li');
+const newNoteButton = document.querySelector('#new-note');
 const gridControl = document.getElementById('grid');
 const themeControl = document.getElementById('theme-control');
 const closeModalButton = document.querySelector('#modal-footer li');
@@ -105,7 +105,7 @@ function importFile() {
     filePicker.style.display = 'block';
 
     document.querySelector('#file-input').addEventListener('change', function() { 
-        importNotesButton.classList.add('opaque');
+        importNotesButton.classList.add('article-unroll');
         document.querySelector('#file-input').classList.add('transparent');
     });
     
@@ -218,20 +218,22 @@ function displayNotePreview(note) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
     article.innerHTML = `
-    <div class="note-key">${note.noteKey}</div>
+    <div class="hidden">${note.noteKey}</div>
     <p class="content-preview">${note.noteContent.text}</p>
     <div class="dates">
-        <p class="created">Created: ${displayCreated.toLocaleDateString(undefined, options)}</p>
-        <p class="edited">Edited: ${displayEdited.toLocaleDateString(undefined, options)}</p>
+        <p class="created semi-transparent">Created: ${displayCreated.toLocaleDateString(undefined, options)}</p>
+        <p class="edited semi-transparent">Edited: ${displayEdited.toLocaleDateString(undefined, options)}</p>
     </div>
     `;
 
+    article.classList.add('color-notes');
+    article.classList.add('flex-column');
     article.addEventListener('click', articleActions);
     section.append(article);
 
     // Adds CSS class to enable animation effect
-    window.setTimeout( () => { article.classList.add('opaque') }, 50 );
-    // article.classList.add('opaque');
+    window.setTimeout( () => { article.classList.add('article-unroll') }, 50 );
+    // article.classList.add('article-unroll');
 
 }
 
@@ -240,8 +242,8 @@ function selectAndDeleteNotes() {
     // let notesToTrash = [];
 
     // Shrinks notes from the center of each note
-    articleList.forEach(article => article.classList.remove('opaque'));
-    articleList.forEach(article => article.classList.add('unselected'));
+    articleList.forEach(article => article.classList.remove('article-unroll'));
+    articleList.forEach(article => article.classList.add('article-unselected'));
     articleList.forEach(article => article.style.transformOrigin = 'center');
 
     // Disables select menus
@@ -264,6 +266,7 @@ function selectAndDeleteNotes() {
 
 function makeSelected(e) {
     // Increases size and deepens color of a selected note
+    this.classList.remove('article-unselected');
     this.classList.add('article-active');
     let article = this;
     let thisNoteKey = article.querySelector('div').textContent;
@@ -316,9 +319,9 @@ function escapeSelectAndDelete(e) {
             selectButton.removeEventListener('click', deleteSelected);
             window.removeEventListener('click', escapeSelectAndDelete);
             selectButton.addEventListener('click', selectAndDeleteNotes);
-            articleList.forEach(article => article.classList.remove('unselected'));
+            articleList.forEach(article => article.classList.remove('article-unselected'));
             articleList.forEach(article => article.classList.remove('article-active'));
-            articleList.forEach(article => article.classList.add('opaque'));
+            articleList.forEach(article => article.classList.add('article-unroll'));
             return;
         }
     }
@@ -472,7 +475,7 @@ function countItems() {
 }
 
 function buildThemeDropdownMenu() {
-    themeControl.innerHTML += `<select name="theme-options" id="theme-list"></select>`;
+    themeControl.innerHTML += `<select name="theme-options" id="theme-list" class="color-background color-text"></select>`;
     colorThemes.forEach(theme => themeControl.querySelector('select').innerHTML += `<option>${theme.themeName}</option>`);
 }
 
