@@ -240,16 +240,11 @@ function displayNotePreview(note) {
 
 function selectAndDeleteNotes() {
     let articleList = document.querySelectorAll('article');
-    // let notesToTrash = [];
 
     // Shrinks notes from the center of each note
     articleList.forEach(article => article.classList.remove('article-unroll'));
     articleList.forEach(article => article.classList.add('article-unselected'));
     articleList.forEach(article => article.style.transformOrigin = 'center');
-
-    // Disables select menus
-    // let select = document.querySelectorAll('select');
-    // select.forEach(menu => menu.setAttribute('disabled', true));
 
     // Remove existing event listeners on articles
     articleList.forEach(article => article.removeEventListener('click', articleActions));
@@ -263,13 +258,13 @@ function selectAndDeleteNotes() {
 }
 
 function makeSelected(e) {
+
     // Increases size and deepens color of a selected note
-    // this.classList.remove('article-unselected');
-    console.log(this);
     this.classList.add('article-selected');
     let article = this;
     let thisNoteKey = article.querySelector('div').textContent;
     thisNoteKey = parseInt(thisNoteKey);
+
     // Checks if noteKey has already been selected and deselects and removes it from 
     // the notesToTrash array. Otherwise adds noteKey to notesToTrash array
     if (notesToTrash.includes(thisNoteKey)) {
@@ -374,15 +369,22 @@ function getSortOrder(e) {
 function toggleModalDisplay() {
 
     if (modal.style.display == 'grid') {
-        modal.classList.remove('modal-open');
-        modal.style.display = 'none';
+        modal.style.transform = 'scaleY(0)';
+        modal.addEventListener('transitionend', closeModal);
         sortNotes();
     } else {
         modal.style.display = 'grid';
         window.setTimeout( () => { modal.classList.add('modal-open') }, 25);
+        window.setTimeout( () => { modal.style.transform = 'scaleY(1)' }, 25);
         textArea.value = userNotes[index].noteContent.text; // Sets text area to content of note
         let countedItems = document.querySelector('#modal-footer label');
         countedItems.innerHTML = userNotes[index].noteContent.wordCount;
+    }
+
+    function closeModal() {
+        modal.classList.remove('modal-open');
+        modal.style.display = 'none';
+        modal.removeEventListener('transitionend', closeModal);
     }
 }
 
