@@ -31,6 +31,7 @@ article,
 select,
 button,
 li,
+#file-picker label,
 input[type=file]::file-selector-button {
     cursor: pointer;
 }
@@ -234,6 +235,30 @@ textarea {
 }
 .inline { /* Changes display type with media query */
     display: inline-block;
+}
+
+/* ////////////////////////////////////////////////////////// */
+/* ENABLE JavaScript POPUP ////////////////////////////////// */
+/* ////////////////////////////////////////////////////////// */
+
+#enable-js-popup {
+    position: absolute;
+    margin: 0 25%;
+    top: 30%;
+    padding: 1rem 2rem 2rem;
+    background: var(--main-notes-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    text-align: center;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
 }
 
 /* ////////////////////////////////////////////////////////// */

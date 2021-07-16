@@ -35,17 +35,17 @@
                         </select>
                     </div>
                 </div>
-                <div id="file-picker">
+                <section hidden id="file-picker">
                     <label for="file-input">Choose File</label>
                     <input type="file" accept=".json" name= "file-input" id="file-input">
                     <button id="read-button">Import Notes</button>
-                </div>
+                </section>
             </ul>
         </header>
         <section id="usernotes-viewer">
             <!-- Tiled preview of notes will be populated here -->
         </section>
-        <section id="modal">
+        <section hidden id="modal">
             <div id="modal-header">
             </div>
             <textarea placeholder="Write your note here" class="color-background color-text"></textarea>
@@ -85,6 +85,12 @@
             </ul>
         </footer>
         <script src="app.js"></script>
+        <noscript class="overlay">
+            <div id="enable-js-popup">
+                <h2>JavaScript required</h2>
+                <p>This site uses JavaScript. Please enable it to continue.</p>
+            </div>
+        </noscript>
     </body>
 
 </html>
