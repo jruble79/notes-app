@@ -175,6 +175,8 @@ article::before {
 .article-selected {
     transform: scale(1);
     background-color: var(--main-note-highlight-color);
+}
+.wiggle {
     animation: .25s wiggle infinite;
     animation-delay: .5s;
 }
