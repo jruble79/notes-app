@@ -172,9 +172,10 @@ article::before {
     transform: scale(.85);
 }
 .article-selected {
-    transform: scale(.95);
+    transform: scale(1);
     background-color: var(--main-note-highlight-color);
     animation: .25s wiggle infinite;
+    animation-delay: .5s;
 }
 @keyframes wiggle {
     0% { transform: rotate(-.5deg); }
