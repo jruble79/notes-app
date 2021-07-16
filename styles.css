@@ -209,6 +209,7 @@ article::before {
     width: calc(100% - 7rem) ;
     transform: scaleY(1);
     opacity: 1;
+    border-radius: 1rem;
 }
 textarea {
     border: 0;
@@ -247,7 +248,8 @@ textarea {
         grid-template-columns: 150px 1fr;
         column-gap: 2rem;
     }
-    #usernotes-viewer {
+    #usernotes-viewer,
+    #modal {
         grid-column-start: 2;
         grid-column-end: 3;
         grid-row-start: 1;
