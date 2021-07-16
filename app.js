@@ -267,6 +267,7 @@ function makeSelected(e) {
 
     // Increases size and deepens color of a selected note
     this.classList.add('article-selected');
+    this.classList.add('wiggle');
     let article = this;
     let thisNoteKey = article.querySelector('div').textContent;
     thisNoteKey = parseInt(thisNoteKey);
@@ -276,7 +277,8 @@ function makeSelected(e) {
     if (notesToTrash.includes(thisNoteKey)) {
         index = notesToTrash.findIndex(note => note === thisNoteKey);
         notesToTrash.splice(index, 1);
-        this.classList.remove('article-selected');
+        this.classList.remove('wiggle');
+        window.setTimeout( () => {this.classList.remove('article-selected')}, 25 );
     } else {
         notesToTrash.push(thisNoteKey);
     }
