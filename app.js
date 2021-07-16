@@ -191,7 +191,13 @@ function saveNote() {
     const thisNote = userNotes[index].noteContent;
     thisNote.text = textArea.value;
     thisNote.dateEdited = new Date();
-    thisNote.wordCount = textArea.value.match(/\w+/g).length;
+
+    if (textArea.value.match(/\w+/g) == null) {
+        thisNote.wordCount = 0;
+    } else {
+        thisNote.wordCount = textArea.value.match(/\w+/g).length;
+    }
+
     userNotes.push();
     localStorage.setItem('notes', JSON.stringify(userNotes));
 }
@@ -371,6 +377,7 @@ function toggleModalDisplay() {
     if (modal.style.display == 'grid') {
         modal.style.transform = 'scaleY(0)';
         modal.addEventListener('transitionend', closeModal);
+        isItBlank();
         sortNotes();
     } else {
         modal.style.display = 'grid';
@@ -391,7 +398,6 @@ function toggleModalDisplay() {
 function setTheme(e) {
 
     const index = e.target.selectedIndex;
-    // colorThemes[index].properties.forEach(property => root.style.setProperty(property.propertyName, property.propertyValue));
     const selectedTheme = colorThemes[index].properties;
     for ( const prop in selectedTheme) { root.style.setProperty( `${prop}`, `${selectedTheme[prop]}` ) }
 
@@ -464,11 +470,14 @@ function showActiveSortDate(method) {
     }
 }
 
-
 function countItems() {
     let wordCount = document.querySelector('#modal-footer label');
     if (userPreferences.countIndex === 0) {
-        wordCount.innerHTML = textArea.value.match(/\w+/g).length;
+        if (textArea.value.match(/\w+/g) == null) {
+            wordCount.innerHTML = 0;
+        } else {
+            wordCount.innerHTML = textArea.value.match(/\w+/g).length;
+        }
     } else if (userPreferences.countIndex === 1) {
         wordCount.innerHTML = textArea.value.length;
     };
@@ -477,6 +486,14 @@ function countItems() {
 function buildThemeDropdownMenu() {
     themeControl.innerHTML += `<select name="theme-options" id="theme-list" class="color-background color-text"></select>`;
     colorThemes.forEach(theme => themeControl.querySelector('select').innerHTML += `<option>${theme.themeName}</option>`);
+}
+
+function isItBlank() {
+    if (userNotes[index].noteContent.text === null || userNotes[index].noteContent.text == 0) {
+        userNotes.splice(index, 1);    
+    } else {
+        return;
+    }
 }
 
 
