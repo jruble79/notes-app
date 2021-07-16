@@ -15,6 +15,10 @@
 html {
     height: 100vh;
 }
+header,
+footer {
+    padding: 0 1rem;
+}
 div {
     display: unset;
 }
@@ -112,7 +116,7 @@ body {
     grid-template-rows: max-content 1fr max-content;
     row-gap: 2rem;
     height: calc(100vh - 4rem);
-    padding: 2rem 1rem;
+    padding: 2rem 0;
 }
 .flex-flex { /* Changes flex-direction with media query */
     display: flex;
@@ -135,6 +139,7 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
     grid-auto-rows: 150px;
     gap: 1rem;
+    padding: 0 1rem;
     overflow-y: scroll;
 }
 #modal {
@@ -152,7 +157,7 @@ article {
     transform: scaleY(0);
     transform-origin: top;
     transition: transform .5s cubic-bezier(0.68, -0.55, 0.265, 1.25), 
-                background-color .15s, opacity .5s;
+                background-color .15s, opacity .5s, box-shadow .15s;
 }
 article::before {
     content: '';
@@ -165,6 +170,11 @@ article::before {
     background: 
         linear-gradient(transparent 20%, var(--main-notes-color) 65%),
         linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+}
+article:hover {
+    background-color: var(--main-note-highlight-color);
+    z-index: 1;
+    box-shadow: 0 1rem 1rem var(--main-box-shadow-color);
 }
 .article-unroll {
     transform: scaleY(1);
@@ -273,7 +283,7 @@ textarea {
 
     body {
         grid-template-columns: 150px 1fr;
-        column-gap: 2rem;
+        column-gap: 0;
     }
     #usernotes-viewer,
     #modal {
