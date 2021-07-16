@@ -47,7 +47,7 @@ const colorThemes = [
                 '--main-text-color': 'rgb(255, 255, 255)',
                 '--main-background-color': 'rgb(0, 0, 0)',
                 '--main-notes-color': 'rgb(75, 75, 75)',
-                '--main-box-shadow-color': 'rgb(75, 75, 75)',
+                '--main-box-shadow-color': 'rgb(0, 0, 0)',
                 '--main-note-highlight-color': 'rgb(100, 100, 100)'
             }
         }
@@ -321,7 +321,8 @@ function escapeSelectAndDelete(e) {
             window.removeEventListener('click', escapeSelectAndDelete);
             selectButton.addEventListener('click', selectAndDeleteNotes);
             articleList.forEach(article => article.classList.remove('article-unselected'));
-            articleList.forEach(article => article.classList.remove('article-selected'));
+            articleList.forEach(article => article.classList.remove('wiggle'));
+            window.setTimeout( () => {articleList.forEach(article => article.classList.remove('article-selected'))}, 25 );
             articleList.forEach(article => article.classList.add('article-unroll'));
             return;
         }
