@@ -172,8 +172,8 @@ article::before {
         linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.25), transparent);
 }
 article:hover {
-    background-color: var(--main-note-highlight-color);
     z-index: 1;
+    background-color: var(--main-note-highlight-color);
     box-shadow: 0 1rem 1rem var(--main-box-shadow-color);
 }
 .article-unroll {
@@ -213,7 +213,7 @@ article:hover {
     opacity: 0;
     transform: scaleY(0);
     transition: transform .75s cubic-bezier(0.68, -0.55, 0.265, 1.25),
-                opacity .75s;
+                opacity .75s, background-color 1s;
 }
 .modal-open {
     top: 2rem;
@@ -223,6 +223,7 @@ article:hover {
     /* Transform scaleY to 1 handled by toggleMediaDisplay */
     opacity: 1;
     border-radius: 1rem;
+    z-index: 2;
 }
 textarea {
     border: 0;
@@ -317,5 +318,9 @@ textarea {
     }
     #select {
         margin-top: 2rem;
+    }
+
+    .modal-open {
+        max-height: 550px;
     }
 }
