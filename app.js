@@ -45,9 +45,9 @@ const colorThemes = [
             themeName: 'Dark',
             properties: {
                 '--main-text-color': 'rgb(255, 255, 255)',
-                '--main-background-color': 'rgb(0, 0, 0)',
+                '--main-background-color': 'rgb(40, 40, 40)',
                 '--main-notes-color': 'rgb(75, 75, 75)',
-                '--main-box-shadow-color': 'rgb(0, 0, 0)',
+                '--main-box-shadow-color': 'rgb(20, 20, 20)',
                 '--main-note-highlight-color': 'rgb(100, 100, 100)'
             }
         }
@@ -110,41 +110,49 @@ function importFile() {
         importNotesButton.removeAttribute('disabled', true);
     });
     
-    importNotesButton.addEventListener('click', function() {
-
-        if (document.querySelector("#file-input").files.length == 0) {
-            alert('Error : No file selected');
-            return;
-        }
-    
-        // file selected by user
-        let file = document.querySelector("#file-input").files[0];
-
-        // new FileReader object
-        let reader = new FileReader();
-
-        // event fired when file reading finished
-        reader.addEventListener('load', function(e) {
-            // contents of the file
-            let text = e.target.result;
-            text = JSON.parse(text);
-            userNotes = text;
-            localStorage.setItem('notes', JSON.stringify(userNotes));
-            filePicker.style.display = 'none';
-            fileActions[0].setAttribute('selected', true);
-            sortNotes();
-        });
-
-        // event fired when file reading failed
-        reader.addEventListener('error', function() {
-            alert('Error : Failed to read file');
-        });
-
-        // read file as text file
-        reader.readAsText(file);
-
-    });
+    importNotesButton.addEventListener('click', checkNoFile );
 }
+
+function checkNoFile() {
+    if (document.querySelector("#file-input").files.length == 0) {
+        alert('Error : No file selected');
+        return;
+    } else {
+        readFile();
+    };
+}
+
+function readFile() {
+
+    // file selected by user
+    let file = document.querySelector("#file-input").files[0];
+
+    // new FileReader object
+    let reader = new FileReader();
+
+    // event fired when file reading finished
+    reader.addEventListener('load', function(e) {
+        // contents of the file
+        let text = e.target.result;
+        userNotes = JSON.parse(text);
+        localStorage.setItem('notes', JSON.stringify(userNotes));
+        fileActions[0].setAttribute('selected', true);
+        fileActions[0].removeAttribute('selected', true);
+        filePicker.style.display = 'none';
+        sortNotes();
+        importNotesButton.removeEventListener('click', checkNoFile);
+    });
+
+    // event fired when file reading failed
+    reader.addEventListener('error', function() {
+        alert('Error : Failed to read file');
+    });
+
+    // read file as text file
+    reader.readAsText(file);
+}
+
+
 
 function exportFile(jsonData) {
 
