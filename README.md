@@ -5,14 +5,14 @@ For Code Louisville's 2021 JavaScript cohort.
 This is a single-page, browser-based notes app utilizing vanilla JavaScript. It currently stores data to the user's local storage. Designed and developed by Jeff Ruble. Tested for Google Chrome.
 ***
 ### Feature Requirements
-1. Read and parse an external file into your application and display some data from that in your app.
+1. Read and parse an external file into your application and display some data from it.
     - Within the Actions menu, users can choose to import notes created through this app from their local environment.
         
         > To evaluate, import sample-notes.JSON from the documents folder in this repo.
 
 2. Create a form and save the values to an external file.
     - From the Actions menu, users can export notes created through this app to their local environment.
-3. Create an array, dictionary or list, populate it with multiple values, retrieve at least one value, and use or display it in your application.
+3. Create an array and populate it with multiple values, retrieve at least one value, and use or display it.
     - Color properties are stored as objects within the `colorThemes` array.
     - On page load, a function called `buildThemeDropdownMenu` loops through `colorThemes` and dynamically builds the dropdown menu. 
     - The function `setTheme` loops through the `colorThemes` array and applies the values as CSS style declarations.
