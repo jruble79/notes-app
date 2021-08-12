@@ -2,7 +2,7 @@
 For Code Louisville's 2021 JavaScript cohort.
 ***
 ## Project Description
-This is a single-page, browser-based notes app utilizing vanilla JavaScript. It currently stores data to the user's local storage. Designed and developed by Jeff Ruble. Tested for Google Chrome.
+This is a single-page, browser-based notes app utilizing vanilla JavaScript. It currently stores data to the user's local storage. Designed and developed by Jeff Ruble. Tested for Google Chrome. [View the Figma protoype](https://www.figma.com/proto/dzIwjcw2gmrq6PFtPWu39X/JavaScript-Course-Notes-App?page-id=0%3A1&node-id=3%3A2&viewport=241%2C48%2C0.37&scaling=scale-down&starting-point-node-id=3%3A2).
 ***
 ### Feature Requirements
 1. Read and parse an external file into your application and display some data from it.
